@@ -1,0 +1,59 @@
+﻿<!--A Design by W3layouts
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/css/bundle.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--fonts-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!--//fonts-->
+</head>
+<body>
+    <!--header-->
+    @await Component.InvokeAsync("Header")
+    <!---->
+    <div class="container">
+        @RenderBody()
+        <!---->
+        <div class="sub-cate">
+            @await Component.InvokeAsync("NavigationMenu")
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+
+    <!---->
+    @await Component.InvokeAsync("Footer")
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/lodash/lodash.js"></script>
+    <script src="~/lib/Microsoft.jQuery.Unobtrusive.Ajax/jquery.unobtrusive-ajax.js"></script>
+
+    <script>
+        function refreshCartSummary() {
+
+            $.ajax({
+                url: '@Url.Action("RefreshCartSummary", "Cart")',
+                type: 'get',
+                complete: function (xhr, textStatus) {
+
+                    if (typeof xhr.responseJSON !== "undefined" && xhr.responseJSON.hasOwnProperty('redirect')) {
+                        window.location.href = xhr.responseJSON.redirect;
+                    } else {
+                        $('#cartSummary').replaceWith(xhr.responseText);
+                    }
+                }
+            });
+        };
+    </script>
+
+</body>
+</html>

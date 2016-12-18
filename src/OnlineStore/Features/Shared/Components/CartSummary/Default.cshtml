@@ -1,0 +1,7 @@
+﻿@model CartViewModel
+
+<div id="cartSummary" class="cart">
+    <a asp-action="Index" asp-controller="Cart" asp-route-returnUrl="@ViewContext.HttpContext.Request.PathAndQuery()">
+        <span> </span>CART (@Model.OrderedItems.Sum(i => i.Quantity) item(s))
+    </a>
+</div>

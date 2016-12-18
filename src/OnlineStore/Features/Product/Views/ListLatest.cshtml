@@ -1,0 +1,20 @@
+﻿@model IEnumerable<ProductViewModel>
+
+@{
+    ViewBag.Title = "Latest Products";
+}
+
+<div class="shoes-grid">
+
+    <div class="products">
+        <h5 class="latest-product">LATEST PRODUCTS</h5>
+        <a class="view-all" asp-action="List" asp-controller="Product">VIEW ALL<span> </span></a>
+    </div>
+
+    @foreach (var product in Model)
+    {
+        @Html.DisplayFor(p => product)
+    }
+
+    <div class="clearfix"> </div>
+</div>

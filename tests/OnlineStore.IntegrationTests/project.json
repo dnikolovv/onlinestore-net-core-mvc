@@ -1,0 +1,29 @@
+﻿{
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "debugType": "portable",
+    "copyToOutput": {
+      "include": [ "appsettings.json" ]
+    }
+  },
+
+  "dependencies": { 
+    "Fixie": "2.0.0-alpha-0001",
+    "Shouldly": "2.8.2",
+    "OnlineStore": { "target": "project" },
+    "Respawn": "0.2.0",
+    "Microsoft.Extensions.DependencyInjection": "1.0.0",
+    "FakeItEasy": "2.3.1",
+    "Microsoft.EntityFrameworkCore": "1.0.1"
+  },
+
+  "testRunner": "fixie",
+
+  "frameworks": {
+    "net452": {
+      "dependencies": {
+        "Microsoft.NETCore.Platforms": "1.0.1"
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+﻿@model IEnumerable<CategoryViewModel>
+
+<div class="top-nav rsidebar span_1_of_left">
+    <h3 class="cate">CATEGORIES</h3>
+    <ul class="menu">
+
+        @foreach (var category in this.Model)
+        {
+            <li class="subitem1">
+                <a 
+                   asp-action="List"
+                   asp-controller="Product" 
+                   asp-route-category="@category.Name" 
+                   asp-route-page="1">
+                    @category.Name
+                </a>
+            </li>
+        }
+    </ul>
+
+    <a class="view-all all-product" asp-action="List" asp-controller="Product" asp-route-page="1" asp-route-category="">VIEW ALL PRODUCTS<span> </span></a>
+</div>

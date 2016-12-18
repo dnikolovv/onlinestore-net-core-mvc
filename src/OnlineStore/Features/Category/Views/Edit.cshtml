@@ -1,0 +1,16 @@
+﻿@model CategoryEditViewModel
+
+@{
+    ViewBag.Title = "Edit category";
+    Layout = "_AdminLayout";
+}
+
+<form asp-action="Edit" method="post">
+    
+    @await Html.PartialAsync("_CategorySubmitForm.cshtml", this.Model)
+
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Edit</button>
+        <a asp-action="Categories" asp-controller="Admin" class="btn btn-default">Cancel</a>
+    </div>
+</form>

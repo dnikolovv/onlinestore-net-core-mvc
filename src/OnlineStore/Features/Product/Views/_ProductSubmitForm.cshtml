@@ -1,0 +1,57 @@
+﻿@model ProductEditViewModel
+
+<ul id="validationSummary" class="alert alert-danger hidden"></ul>
+<input type="hidden" asp-for="Id" />
+<div class="form-group">
+    <label asp-for="Name"></label>
+    <input asp-for="Name" class="form-control" />
+</div>
+<div class="form-group">
+    <label asp-for="Description"></label>
+    <textarea asp-for="Description" class="form-control"></textarea>
+</div>
+<div class="form-group">
+    <label asp-for="Category"></label>
+    <select asp-for="Category.Name" asp-items="@Model.Categories"></select>
+    <a asp-action="Create" asp-controller="Category" class="btn btn-default">Add</a>
+</div>
+<div class="form-group">
+    <label asp-for="ImagePath"></label>
+
+    <div class="form-inline">
+
+        <script type="text/javascript">
+                function previewImage() {
+
+                    var givenUrl = $('#image-link-input').val();
+
+                    var contentUrl;
+
+                    $.ajax({
+                        url: '@Url.Action("GetContentUrl", "Admin")',
+                        type: "GET",
+                        data: { givenUrl: givenUrl },
+                        success: function (data) {
+                            contentUrl = data;
+                            $('#product-cover-image').attr('src', contentUrl);
+                        },
+                        error: function (req, status, errorObj) {
+                            alert('error');
+                        }
+                    })
+                };
+        </script>
+
+        <input asp-for="ImagePath" class="form-control" id="image-link-input" />
+
+        <a class="btn btn-default" onclick="previewImage()">
+            Preview
+        </a>
+    </div>
+
+    <img src="@Url.Content(Model.ImagePath)" id="product-cover-image" />
+</div>
+<div class="form-group">
+    <label asp-for="Price"></label>
+    <input asp-for="Price" class="form-control" />
+</div>

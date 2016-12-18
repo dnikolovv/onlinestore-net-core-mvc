@@ -1,0 +1,32 @@
+﻿@model OnlineStore.Features.Account.Login.Command
+
+@{ 
+    ViewBag.Title = "Login";
+}
+
+<div class="account_grid">
+    <div class="login-right">
+        <h3>REGISTERED CUSTOMERS</h3>
+        <p>If you have an account with us, please log in.</p>
+
+        <form asp-action="Login" asp-controller="Account">
+            <ul id="validationSummary" class="alert alert-danger hidden"></ul>
+
+            <div>
+                <span>Username<label>*</label></span>
+                <input asp-for="UserName" type="text">
+            </div>
+            <div>
+                <span>Password<label>*</label></span>
+                <input asp-for="Password" type="password">
+            </div>
+            <input value="Login" type="submit">
+        </form>
+    </div>
+    <!---728x90--->
+    <div class="login-left">
+        <h3>NEW CUSTOMERS</h3>
+        <a class="acount-btn" asp-action="Register" asp-controller="Account">Create an Account</a>
+    </div>
+    <div class="clearfix"> </div>
+</div>

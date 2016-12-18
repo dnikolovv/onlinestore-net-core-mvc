@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+    <link asp-href-include="~/css/style.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+</head>
+<body class="container">
+    <div class="panel-heading">
+        <a class="btn btn-sm btn-primary pull-right admin-navbar-button" href="/">
+            Go back to site
+        </a>
+        <a class="btn btn-sm btn-primary pull-right admin-navbar-button"
+           asp-action="Products" asp-controller="Admin">
+            Products
+        </a>
+        <a class="btn btn-sm btn-primary pull-right admin-navbar-button"
+           asp-action="Categories" asp-controller="Admin">
+            Categories
+        </a>
+        <a class="btn btn-sm btn-primary pull-right admin-navbar-button"
+           asp-action="Orders" asp-controller="Admin">
+            Orders
+        </a>
+        <a class="btn btn-sm btn-primary pull-right admin-navbar-button"
+           asp-action="Logout" asp-controller="Account">
+            Log Out
+        </a>
+        <h4>@ViewBag.Title</h4>
+    </div>
+    <div class="panel-body">
+        @if (TempData["successMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["successMessage"]
+            </div>
+        }
+
+        @RenderBody()
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/lodash/lodash.js"></script>
+
+</body>
+</html>

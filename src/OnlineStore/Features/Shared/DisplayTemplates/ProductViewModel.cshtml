@@ -1,0 +1,19 @@
+﻿@model ProductViewModel
+
+<div class="col-md-4 chain-grid">
+    <a asp-action="Details" asp-controller="Product" asp-route-productId="@Model.Id" class="product-pic">
+        <img class="img-responsive chain" src="@(Url.Content(Model.ImagePath ?? ProductConstants.DEFAULT_PRODUCT_IMAGE_ROUTE))">
+    </a>
+    <div class="grid-chain-bottom">
+        <h6><a href="single.html">@Model.Name</a></h6>
+        <div class="star-price">
+            <div class="dolor-grid">
+                <span class="actual">@Model.Price.ToString("c")</span>
+            </div>
+
+            @await Html.PartialAsync("../Partials/_AddToCartButton.cshtml", this.Model)
+            
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>

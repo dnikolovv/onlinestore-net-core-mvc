@@ -1,0 +1,31 @@
+﻿@model OnlineStore.Features.Product.List.Result
+
+@{
+    ViewBag.Title = this.Model.CurrentCategory == null ? "All Products" : this.Model.CurrentCategory;
+}
+
+<div class="shoes-grid">
+    <div class="products">
+        @if (!String.IsNullOrEmpty(this.Model.CurrentCategory))
+        {
+            <h5 class="category-name">@Model.CurrentCategory.ToUpper()</h5>
+        }
+        else
+        {
+            <h5 class="category-name">ALL PRODUCTS</h5>
+        }
+
+    </div>
+
+    <div class="product-list">
+        @foreach (var product in Model.Products)
+            {
+            @Html.DisplayFor(p => product)
+        }
+
+    </div>
+    <div class="clearfix"> </div>
+
+    <div class="col-md-3 btn-group btn-lg" id="pagination" page-model="@Model.PagingInfo" page-url-category="@Model.CurrentCategory"
+         page-classes-enabled="true" page-class="btn" page-class-normal="btn-default" page-class-selected="btn-primary"></div>
+</div>

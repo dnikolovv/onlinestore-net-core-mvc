@@ -1,0 +1,44 @@
+﻿@model OnlineStore.Features.Account.Register.Command
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="register">
+    <form asp-action="Register" asp-controller="Account" method="post">
+        <div class="register-top-grid">
+            <h3>PERSONAL INFORMATION</h3>
+
+            <ul id="validationSummary" class="alert alert-danger hidden"></ul>
+
+            <div class="mation">
+                <span>First Name<label>*</label></span>
+                <input type="text" asp-for="FirstName">
+
+                <span>Last Name</span>
+                <input type="text" asp-for="LastName">
+
+                <span>User name<label>*</label></span>
+                <input type="text" asp-for="UserName">
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+        <!---728x90--->
+        <div class="register-bottom-grid">
+            <h3>LOGIN INFORMATION</h3>
+            <div class="mation">
+                <span>Password<label>*</label></span>
+                <input type="password" asp-for="Password">
+                <span>Confirm Password<label>*</label></span>
+                <input type="password" asp-for="ConfirmedPassword">
+            </div>
+        </div>
+
+        <div class="register-but">
+            <input value="submit" type="submit">
+            <div class="clearfix"> </div>
+        </div>
+
+    </form>
+    <div class="clearfix"> </div>
+</div>

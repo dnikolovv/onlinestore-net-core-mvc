@@ -1,0 +1,59 @@
+﻿<div class="header">
+    <div class="top-header">
+        <div class="container">
+            <div class="top-header-left">
+                <ul class="support">
+                    <li><a href="#"><label> </label></a></li>
+                    <li><a href="#">24x7 live<span class="live"> support</span></a></li>
+                </ul>
+                <ul class="support">
+                    <li class="van"><a href="#"><label> </label></a></li>
+                    <li><a href="#">Free shipping <span class="live">on order over 500</span></a></li>
+                </ul>
+                <div class="clearfix"> </div>
+            </div>
+            <div class="top-header-right">
+                <!---->
+                <div class="clearfix"> </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <div class="bottom-header">
+        <div class="container">
+            <div class="header-bottom-left">
+                <div class="logo">
+                    <a asp-action="ListLatest" asp-controller="Product"><img src="~/images/logo.png" alt="logo" /></a>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <div class="header-bottom-right">
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @await Component.InvokeAsync("CartSummary")
+                    <ul class="login">
+                        <li><a asp-action="Logout" asp-controller="Account"><span> </span>LOGOUT</a></li>
+
+                        @if (User.IsInRole(OnlineStore.Infrastructure.Constants.Roles.ADMIN_ROLE))
+                        {
+                            @:| 
+                            <li>
+                                <a asp-action="Products" asp-controller="Admin">ADMIN PANEL</a>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <ul class="login">
+                        <li><a asp-action="Login" asp-controller="Account"><span> </span>LOGIN</a></li> |
+                        <li><a asp-action="Register" asp-controller="Account">SIGNUP</a></li>
+                    </ul>
+                }
+
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>

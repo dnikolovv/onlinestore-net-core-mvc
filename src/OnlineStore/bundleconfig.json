@@ -1,0 +1,9 @@
+[
+  {
+    "outputFileName": "wwwroot/css/bundle.css",
+    "inputFiles": [
+      "wwwroot/css/css.css",
+      "wwwroot/css/style.css"
+    ]
+  }
+]

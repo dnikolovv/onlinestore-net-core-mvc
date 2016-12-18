@@ -1,0 +1,39 @@
+﻿@model ProductViewModel
+
+@{ 
+    ViewBag.Title = $"{Model.Name} Details";
+}
+
+<div class="single_top">
+    <div class="single_grid">
+        <div class="grid images_3_of_2">
+            <div class="flexslider">
+                <div class="clearfix"></div>
+                <div>
+                    <img src="@Url.Content(Model.ImagePath ?? ProductConstants.DEFAULT_PRODUCT_IMAGE_ROUTE)" width="220" height="280" />
+                </div>
+            </div>
+        </div>
+        <div class="desc1 span_3_of_2">
+            <h4>@Model.Name</h4>
+            <div class="cart-b">
+                <div class="left-n ">@Model.Price.ToString("c")</div>
+
+                @await Html.PartialAsync("../../Shared/Partials/_AddToCartButton.cshtml", this.Model)
+
+                <div class="clearfix"></div>
+            </div>
+            <h6>100 items in stock</h6>
+            <p>
+                @Model.Description
+            </p>
+
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <!---728x90--->
+    <div class="toogle">
+        <h3 class="m_3">Product Details</h3>
+        <p class="m_text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum.</p>
+    </div>
+</div>

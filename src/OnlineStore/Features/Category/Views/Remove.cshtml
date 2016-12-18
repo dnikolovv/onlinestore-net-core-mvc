@@ -1,0 +1,23 @@
+﻿@model OnlineStore.Features.Category.Remove.Command
+
+@{
+    ViewBag.Title = "Remove category";
+    Layout = "_AdminLayout";
+}
+
+<div class="pagination-centered">
+    <ul id="validationSummary" class="alert alert-danger hide"></ul>
+    <form asp-action="Remove" asp-controller="Category" class="container">
+        <h4>
+            Are you sure you want to delete category with name @Model.Name?
+            There are @Model.ProductsInCategoryCount products in this category, if you click the remove button, they will be deleted too.
+        </h4>
+
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Name" />
+        <input type="hidden" asp-for="ProductsInCategoryCount" />
+
+        <button class="btn btn-danger" type="submit">Remove</button>
+        <a asp-action="List" asp-controller="Category" class="btn btn-default">Cancel</a>
+    </form>
+</div>

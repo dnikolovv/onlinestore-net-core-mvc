@@ -1,0 +1,62 @@
+﻿@model CartIndexViewModel
+
+@{
+    ViewBag.Title = "Cart Index";
+}
+
+<div class="col-md-8 pull-right">
+    <div class="heading">
+        <h5 class="heading-text">YOUR CART</h5>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Quantity</th>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.OrderedItems)
+            {
+                <tr>
+                    <td>@product.Quantity</td>
+                    <td>@product.Product.Name</td>
+                    <td>@product.Product.Price.ToString("c")</td>
+                    <td>
+                        @((product.Quantity * product.Product.Price).ToString("c"))
+                    </td>
+                    <td class="col-md-1">
+                        <form asp-action="RemoveFromCart" asp-controller="Cart">
+                            <input type="hidden" name="ProductId"
+                                   value="@product.Product.Id" />
+                            <input type="hidden" name="returnUrl"
+                                   value="@Model.ReturnUrl" />
+                            <button type="submit" class="btn btn-small btn-danger">
+                                Remove
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" >Total:</td>
+                    <td>
+                        @Model.TotalSum.ToString("c")
+                    </td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+        <div>
+            <a class="btn btn-default" href="@Model.ReturnUrl">Go back</a>
+            <a class="btn btn-success pull-right" asp-action="Checkout" asp-controller="Order">
+                Checkout
+            </a>
+        </div>
+    </div>

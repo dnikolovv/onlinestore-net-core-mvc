@@ -1,0 +1,16 @@
+﻿@model ProductEditViewModel
+
+@{
+    ViewBag.Title = "Create Product";
+    Layout = "_AdminLayout";
+}
+
+<form asp-action="Create" method="post">
+
+    @await Html.PartialAsync("_ProductSubmitForm.cshtml", this.Model)
+
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <a asp-action="Products" asp-controller="Admin" class="btn btn-default">Cancel</a>
+    </div>
+</form>

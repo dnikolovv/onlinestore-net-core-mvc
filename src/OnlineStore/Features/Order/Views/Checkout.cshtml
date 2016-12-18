@@ -1,0 +1,35 @@
+﻿@model OnlineStore.Features.Order.Checkout.Command
+
+<div class="col-md-8 pull-right">
+
+    <div class="heading">
+        <h5 class="heading-text">Check out now</h5>
+    </div>
+
+    <p>Please enter your details, and we'll ship your goods right away!</p>
+
+    <form asp-action="Checkout" method="post">
+        <h3>Ship to</h3>
+
+        <ul id="validationSummary" class="alert alert-danger hidden"></ul>
+
+        <div class="order-checkout-field">
+            <label>Name:</label><input asp-for="Name" class="order-checkout-field" />
+            <h3>Address</h3>
+            <label>Line 1:</label><input asp-for="Line1" class="order-checkout-field" />
+            <label>Line 2:</label><input asp-for="Line2" class="order-checkout-field" />
+            <label>Line 3:</label><input asp-for="Line3" class="order-checkout-field" />
+            <label>City:</label><input asp-for="City" class="order-checkout-field" />
+            <label>State:</label><input asp-for="State" class="order-checkout-field" />
+            <label>Country:</label><input asp-for="Country" class="order-checkout-field" />
+            <label>Zip code:</label><input asp-for="Zip" class="order-checkout-field" />
+            <h3>Options</h3>
+            <label>Gift wrap these items</label><input asp-for="GiftWrap" type="checkbox" class="checkbox-inline"/> 
+        </div>
+
+        <input type="hidden" asp-for="SenderUserName" value="@User.Identity.Name" />
+        <div class="pagination-centered">
+            <input class="btn btn-primary" type="submit" value="Complete Order" />
+        </div>
+    </form>
+</div>

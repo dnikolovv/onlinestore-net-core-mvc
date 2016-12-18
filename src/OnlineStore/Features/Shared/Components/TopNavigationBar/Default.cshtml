@@ -1,0 +1,44 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="navbar">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p class="navbar-text pull-left">
+            Hello, @User.Identity.Name!
+        </p>
+        <div class="pull-right">
+            @await Component.InvokeAsync("CartSummary")
+
+            @if (User.IsInRole(OnlineStore.Infrastructure.Constants.Roles.ADMIN_ROLE))
+            {
+                <a class="btn btn-sm btn-default navbar-btn"
+                   asp-action="Index" asp-controller="Admin"
+                   asp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">
+                    Admin panel
+                </a>
+            }
+
+            <a class="btn btn-sm btn-default navbar-btn"
+               asp-action="Logout" asp-controller="Account">
+                Log Out
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="navbar-btn pull-right">
+            <a class="btn btn-sm btn-default navbar-btn"
+               asp-action="Login" asp-controller="Account"
+               asp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">
+                Login
+            </a>
+            <a class="btn btn-sm btn-default navbar-btn"
+               asp-action="Register" asp-controller="Account"
+               asp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">
+                Register
+            </a>
+        </div>
+    }
+</div>    

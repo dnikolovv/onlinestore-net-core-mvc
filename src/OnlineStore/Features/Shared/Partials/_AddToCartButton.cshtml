@@ -1,0 +1,16 @@
+﻿@model ProductViewModel
+
+<form id="@Model.Id"
+      asp-controller="Cart"
+      asp-action="AddToCart"
+      data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-complete="refreshCartSummary()">
+
+    <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+    <input type="hidden" asp-for="Id" name="productId" />
+
+    <button type="submit" class="btn now-get get-cart">
+        ADD TO CART
+    </button>
+</form>
