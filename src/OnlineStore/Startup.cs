@@ -17,7 +17,6 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -52,7 +51,7 @@
             services.AddSession();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddIdentity<User, IdentityRole>(options =>
+            services.AddIdentity<User, UserRole>(options =>
                 { // It's a dummy app so I don't need these
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = false;
@@ -61,7 +60,7 @@
                     options.Password.RequiredLength = 1;
                     options.User.AllowedUserNameCharacters = null;
 
-                }).AddEntityFrameworkStores<ApplicationDbContext>();
+                }).AddEntityFrameworkStores<ApplicationDbContext, int>();
 
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<ICategoryValidator, CategoryValidator>();

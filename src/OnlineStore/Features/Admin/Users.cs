@@ -44,7 +44,7 @@
                 {
                     var viewModel = Mapper.Map<UserViewModel>(user);
 
-                    var roles = await this.usersService.GetRolesAsync(user.Id);
+                    var roles = await this.usersService.GetRolesAsync(user.Id.ToString());
                     viewModel.Roles = Mapper.Map<ICollection<RoleViewModel>>(roles);
                     
                     viewModels.Add(viewModel);

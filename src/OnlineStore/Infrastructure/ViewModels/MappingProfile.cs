@@ -36,7 +36,7 @@
             CreateMap<CategoryEditViewModel, Features.Category.Edit.Command>();
 
             // Users
-            CreateMap<IdentityRole, RoleViewModel>(MemberList.Destination);
+            CreateMap<UserRole, RoleViewModel>(MemberList.Destination);
             CreateMap<User, UserViewModel>(MemberList.Destination)
                 .ForMember(u => u.Roles, opt => opt.Ignore());
         }

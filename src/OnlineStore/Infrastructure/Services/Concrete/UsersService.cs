@@ -4,7 +4,6 @@
     using Data;
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
@@ -63,6 +62,7 @@
             {
                 Cart cart = new Cart() { User = user, UserId = user.Id };
                 db.Carts.Add(cart);
+                await this.db.SaveChangesAsync();
                 user.Cart = cart;
                 return true;
             }
@@ -85,12 +85,12 @@
             return await this.userManager.FindByIdAsync(userId);
         }
 
-        public async Task<IEnumerable<IdentityRole>> GetRolesAsync(string userId)
+        public async Task<IEnumerable<UserRole>> GetRolesAsync(string userId)
         {
             var user = await this.userManager.FindByIdAsync(userId);
 
             // TODO: Optimize this so it doesn't throw a query for each user
-            var rolesToQuery = new List<string>();
+            var rolesToQuery = new List<int>();
 
             foreach (var role in user.Roles)
             {

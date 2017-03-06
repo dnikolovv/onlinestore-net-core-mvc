@@ -17,7 +17,7 @@
     {
         public class Query : IAsyncRequest<UserEditViewModel>
         {
-            public string UserId { get; set; }
+            public int UserId { get; set; }
         }
 
         public class QueryValidator : AbstractValidator<Query>
@@ -47,7 +47,7 @@
 
                 var userViewModel = Mapper.Map<UserViewModel>(user);
                 userViewModel.Roles = Mapper.Map<ICollection<RoleViewModel>>
-                    (await this.usersService.GetRolesAsync(user.Id));
+                    (await this.usersService.GetRolesAsync(user.Id.ToString()));
 
                 var availableRoles = await this.db.Roles
                     .ProjectTo<RoleViewModel>()
@@ -63,11 +63,11 @@
 
         public class Command : IAsyncRequest
         {
-            public string Id { get; set; }
+            public int Id { get; set; }
 
             public string UserName { get; set; }
 
-            public ICollection<string> SelectedRoles { get; set; }
+            public ICollection<int> SelectedRoles { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -107,7 +107,7 @@
 
                             if (roleInDb != null)
                             {
-                                var relationshipToAdd = new IdentityUserRole<string>() { RoleId = roleInDb.Id, UserId = userInDb.Id };
+                                var relationshipToAdd = new IdentityUserRole<int>() { RoleId = roleInDb.Id, UserId = userInDb.Id };
 
                                 if (roleInDb.Users.FirstOrDefault(r => r.RoleId == relationshipToAdd.RoleId && r.UserId == relationshipToAdd.UserId) == null)
                                 {

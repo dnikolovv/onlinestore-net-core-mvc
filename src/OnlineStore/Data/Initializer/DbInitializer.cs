@@ -4,7 +4,6 @@
     using Infrastructure.Util;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Models;
     using System.Linq;
@@ -213,15 +212,15 @@
             UserManager<User> userManager = app.ApplicationServices
                 .GetRequiredService<UserManager<User>>();
 
-            User user = await userManager.FindByIdAsync("Admin");
+            User user = await userManager.FindByNameAsync("Admin");
 
             if (user == null)
             {
                 ApplicationDbContext context = app.ApplicationServices
                     .GetRequiredService<ApplicationDbContext>();
 
-                RoleManager<IdentityRole> roleManager = app.ApplicationServices
-                    .GetRequiredService<RoleManager<IdentityRole>>();
+                RoleManager<UserRole> roleManager = app.ApplicationServices
+                    .GetRequiredService<RoleManager<UserRole>>();
 
                 user = new User() { UserName = ADMIN_DEFAULT_USERNAME, FirstName = "JohnTheAdmin", Cart = new Cart() };
                 await userManager.CreateAsync(user, ADMIN_DEFAULT_PASSWORD);
@@ -231,7 +230,7 @@
 
                 if (!(await roleManager.RoleExistsAsync(Roles.ADMIN_ROLE)))
                 {
-                    IdentityRole adminRole = new IdentityRole()
+                    UserRole adminRole = new UserRole()
                     {
                         Name = Roles.ADMIN_ROLE
                     };
