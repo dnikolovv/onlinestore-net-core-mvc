@@ -4,6 +4,10 @@
     using Data;
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class UsersService : IUsersService
@@ -39,6 +43,18 @@
             return false;
         }
 
+        public async Task<bool> UpdateAsync(User user)
+        {
+            IdentityResult update = await this.userManager.UpdateAsync(user);
+
+            if (update.Succeeded)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public async Task<bool> RegisterAsync(User user, string password)
         {
             IdentityResult register = await userManager.CreateAsync(user, password);
@@ -62,6 +78,28 @@
         public async Task<User> FindByUserNameAsync(string userName)
         {
             return await this.userManager.FindByNameAsync(userName);
+        }
+
+        public async Task<User> FindByIdAsync(string userId)
+        {
+            return await this.userManager.FindByIdAsync(userId);
+        }
+
+        public async Task<IEnumerable<IdentityRole>> GetRolesAsync(string userId)
+        {
+            var user = await this.userManager.FindByIdAsync(userId);
+
+            // TODO: Optimize this so it doesn't throw a query for each user
+            var rolesToQuery = new List<string>();
+
+            foreach (var role in user.Roles)
+            {
+                rolesToQuery.Add(role.RoleId);
+            }
+
+            return await this.db.Roles
+                .Where(r => rolesToQuery.Contains(r.Id))
+                .ToListAsync();
         }
     }
 }

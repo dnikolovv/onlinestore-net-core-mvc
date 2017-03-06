@@ -33,5 +33,11 @@
         {
             return $"Product with Id {productId} has been removed!";
         }
+
+        // Users
+        public static string SuccessfullyEditedUser(string userName)
+        {
+            return $"Successfuly edited {userName} permissions!";
+        }
     }
 }

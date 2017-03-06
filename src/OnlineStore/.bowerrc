@@ -1,6 +1,4 @@
 {
   "directory": "wwwroot/lib",
-  "registry": "http://bower.herokuapp.com",
-  "https-proxy": "http://proxy.obs-03.local:8080",
-  "proxy": "http://proxy.obs-03.local:8080"
+  "registry": "http://bower.herokuapp.com"
 }

@@ -6,6 +6,8 @@
     using Infrastructure.ViewModels.Categories;
     using Infrastructure.ViewModels.Orders;
     using Infrastructure.ViewModels.Products;
+    using Infrastructure.ViewModels.Users;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
     public class MappingProfile : Profile
     {
@@ -23,7 +25,6 @@
 
             // Cart
             CreateMap<CartItem, CartItemViewModel>();
-
             CreateMap<Cart, CartViewModel>()
                 .ForMember(c => c.TotalSum, opt => opt.MapFrom(c => c.TotalSum()));
 
@@ -32,8 +33,12 @@
 
             // Categories
             CreateMap<Category, CategoryViewModel>();
-
             CreateMap<CategoryEditViewModel, Features.Category.Edit.Command>();
+
+            // Users
+            CreateMap<IdentityRole, RoleViewModel>(MemberList.Destination);
+            CreateMap<User, UserViewModel>(MemberList.Destination)
+                .ForMember(u => u.Roles, opt => opt.Ignore());
         }
     }
 }

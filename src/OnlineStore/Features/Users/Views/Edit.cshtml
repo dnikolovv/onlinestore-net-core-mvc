@@ -1,0 +1,41 @@
+﻿@model UserEditViewModel
+
+@{
+    ViewBag.Title = "Edit user";
+    Layout = "_AdminLayout";
+}
+
+<ul id="validationSummary" class="alert alert-danger hidden"></ul>
+
+<form asp-action="Edit" asp-controller="User" method="post">
+
+    <input type="hidden" asp-for="User.Id" name="Id" />
+
+    <div class="form-group">
+        <label asp-for="User.UserName">Username</label>
+        <input asp-for="User.UserName" name="UserName" disabled class="form-control" />
+    </div>
+
+    <div class="form-group">
+
+        <hr />
+        <label>Available roles</label>
+
+        <div class="form-inline">
+            @foreach (var role in Model.AvailableRoles)
+            {
+                @role.Name
+                <input name="SelectedRoles" value="@role.Id" type="checkbox" class="checkbox" 
+                       checked="@(Model.User.Roles.FirstOrDefault(r => r.Id == role.Id) != null)"/>
+            }
+        </div>
+
+        <a asp-action="AddRole" asp-controller="User" class="btn btn-default">Add role</a>
+
+    </div>
+
+    <hr />
+
+    <button type="submit" class="btn btn-warning">Edit</button>
+    <a asp-action="Users" asp-controller="Admin" class="btn btn-danger">Cancel</a>
+</form>
