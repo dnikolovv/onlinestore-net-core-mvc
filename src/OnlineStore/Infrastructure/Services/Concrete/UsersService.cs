@@ -62,8 +62,8 @@
             {
                 Cart cart = new Cart() { User = user, UserId = user.Id };
                 db.Carts.Add(cart);
-                await this.db.SaveChangesAsync();
                 user.Cart = cart;
+                await this.db.SaveChangesAsync();
                 return true;
             }
 

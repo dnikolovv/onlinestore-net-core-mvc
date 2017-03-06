@@ -71,7 +71,6 @@
             {
                 var user = new User();
                 Mapper.Map(message, user);
-                user.Cart = new Cart();
 
                 await this.usersService.RegisterAsync(user, message.Password);
             }
