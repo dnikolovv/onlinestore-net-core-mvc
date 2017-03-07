@@ -6,7 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Roles.ADMIN_ROLE)]
     public class UserController : Controller
     {
         public UserController(IMediator mediator)
