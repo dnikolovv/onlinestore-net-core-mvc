@@ -9,6 +9,7 @@
     using Features.Order.Util;
     using FluentValidation.AspNetCore;
     using Infrastructure;
+    using Infrastructure.Attributes;
     using Infrastructure.Constants;
     using Infrastructure.Conventions;
     using Infrastructure.Services.Concrete;
@@ -66,6 +67,8 @@
             services.AddTransient<ICategoryValidator, CategoryValidator>();
             services.AddTransient<IOrderValidator, OrderValidator>();
             services.AddTransient<IUserValidator, UserValidator>();
+
+            services.AddScoped<DynamicallyAuthorize>();
 
             services.AddMvc(opt =>
             {

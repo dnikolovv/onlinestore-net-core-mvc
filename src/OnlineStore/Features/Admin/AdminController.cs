@@ -1,11 +1,11 @@
 ﻿namespace OnlineStore.Features.Admin
 {
+    using Infrastructure.Attributes;
     using MediatR;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
 
-    [Authorize(Roles = Infrastructure.Constants.Roles.ADMIN_ROLE)]
+    [ServiceFilter(typeof(DynamicallyAuthorize))]
     public class AdminController : Controller
     {
         public AdminController(IMediator mediator)
@@ -38,7 +38,7 @@
             var model = await this.mediator.SendAsync(query);
             return View(model);
         }
-
+        
         public async Task<ViewResult> Roles(Roles.Query query)
         {
             var model = await this.mediator.SendAsync(query);

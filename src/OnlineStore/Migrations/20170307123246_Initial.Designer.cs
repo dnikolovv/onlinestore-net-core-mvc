@@ -8,7 +8,7 @@ using OnlineStore.Data;
 namespace OnlineStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170306154340_Initial")]
+    [Migration("20170307123246_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -191,6 +191,26 @@ namespace OnlineStore.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("OnlineStore.Data.Models.Permission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Action")
+                        .IsRequired();
+
+                    b.Property<string>("Controller")
+                        .IsRequired();
+
+                    b.Property<int>("RoleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Permissions");
+                });
+
             modelBuilder.Entity("OnlineStore.Data.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -352,6 +372,14 @@ namespace OnlineStore.Migrations
                     b.HasOne("OnlineStore.Data.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("OnlineStore.Data.Models.Permission", b =>
+                {
+                    b.HasOne("OnlineStore.Data.Models.UserRole", "Role")
+                        .WithMany("Permissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("OnlineStore.Data.Models.Product", b =>
