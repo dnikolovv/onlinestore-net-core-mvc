@@ -1,7 +1,7 @@
 ﻿namespace OnlineStore.Data.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Permission : IEntity
     {
@@ -14,9 +14,6 @@
         [Required]
         public string Controller { get; set; }
 
-        [ForeignKey("Role")]
-        public int RoleId { get; set; }
-
-        public UserRole Role { get; set; }
+        public ICollection<PermissionRole> PermissionsRoles { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace OnlineStore.Features.Product
 {
     using Features;
+    using Infrastructure.Attributes;
     using Infrastructure.Constants;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
@@ -34,7 +35,7 @@
             return View(model);
         }
 
-        [Authorize(Roles = Roles.ADMIN_ROLE)]
+        [ServiceFilter(typeof(DynamicallyAuthorize))]
         [HttpGet]
         public async Task<IActionResult> Edit(Edit.Query query)
         {
@@ -42,7 +43,7 @@
             return View(model);
         }
 
-        [Authorize(Roles = Roles.ADMIN_ROLE)]
+        [ServiceFilter(typeof(DynamicallyAuthorize))]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Edit.Command command)
@@ -52,7 +53,7 @@
             return this.RedirectToActionJson("Products", "Admin");
         }
 
-        [Authorize(Roles = Roles.ADMIN_ROLE)]
+        [ServiceFilter(typeof(DynamicallyAuthorize))]
         [HttpGet]
         public async Task<ViewResult> Create(Create.Query query)
         {
@@ -60,7 +61,7 @@
             return View(model);
         }
 
-        [Authorize(Roles = Roles.ADMIN_ROLE)]
+        [ServiceFilter(typeof(DynamicallyAuthorize))]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Create.Command command)
@@ -70,7 +71,7 @@
             return this.RedirectToActionJson("Products", "Admin");
         }
 
-        [Authorize(Roles = Roles.ADMIN_ROLE)]
+        [ServiceFilter(typeof(DynamicallyAuthorize))]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Remove(Remove.Command command)

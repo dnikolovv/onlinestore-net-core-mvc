@@ -5,6 +5,6 @@
 
     public class UserRole : IdentityRole<int>, IEntity
     {
-        public ICollection<Permission> Permissions { get; set; }
+        public ICollection<PermissionRole> PermissionsRoles { get; set; }
     }
 }

@@ -14,6 +14,9 @@
 
         public const string CATEGORY_DOESNT_EXIST = "The category you are trying to delete does not exist.";
 
+        // Roles
+        public const string ROLE_NAME_TAKEN = "This role name is already taken.";
+
         // Cart
         public const string CART_IS_EMPTY = "Your cart is empty";
     }

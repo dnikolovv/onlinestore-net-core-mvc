@@ -61,6 +61,20 @@ namespace OnlineStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Permissions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Action = table.Column<string>(nullable: false),
+                    Controller = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Permissions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -234,20 +248,23 @@ namespace OnlineStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Permissions",
+                name: "PermissionsRoles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Action = table.Column<string>(nullable: false),
-                    Controller = table.Column<string>(nullable: false),
-                    RoleId = table.Column<int>(nullable: false)
+                    RoleId = table.Column<int>(nullable: false),
+                    PermissionId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Permissions", x => x.Id);
+                    table.PrimaryKey("PK_PermissionsRoles", x => new { x.RoleId, x.PermissionId });
                     table.ForeignKey(
-                        name: "FK_Permissions_AspNetRoles_RoleId",
+                        name: "FK_PermissionsRoles_Permissions_PermissionId",
+                        column: x => x.PermissionId,
+                        principalTable: "Permissions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PermissionsRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
@@ -335,8 +352,13 @@ namespace OnlineStore.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Permissions_RoleId",
-                table: "Permissions",
+                name: "IX_PermissionsRoles_PermissionId",
+                table: "PermissionsRoles",
+                column: "PermissionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PermissionsRoles_RoleId",
+                table: "PermissionsRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
@@ -382,7 +404,7 @@ namespace OnlineStore.Migrations
                 name: "CartItems");
 
             migrationBuilder.DropTable(
-                name: "Permissions");
+                name: "PermissionsRoles");
 
             migrationBuilder.DropTable(
                 name: "Carts");
@@ -392,6 +414,9 @@ namespace OnlineStore.Migrations
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Permissions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

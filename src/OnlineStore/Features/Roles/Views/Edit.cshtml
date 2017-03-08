@@ -1,0 +1,45 @@
+﻿@model RoleEditViewModel
+
+@{
+    ViewBag.Title = "Edit role";
+    Layout = "_AdminLayout";
+}
+
+<form asp-action="Edit" asp-controller="Role" method="post">
+
+    <ul id="validationSummary" class="alert alert-danger hidden"></ul>
+
+    <div class="form-group">
+        <h4>Name</h4>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <input type="hidden" asp-for="Id" />
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Action</th>
+                <th>Controller</th>
+                <th>Check</th>
+            </tr>
+        </thead>
+
+        @foreach (var permission in Model.AvailablePermissions)
+        {
+            <tr>
+                <td>@permission.Id</td>
+                <td>@permission.Action.ToUpper()</td>
+                <td>@permission.Controller.ToUpper()</td>
+                <td>
+                    <input class="checkbox" type="checkbox" name="SelectedPermissions" value="@permission.Id" 
+                           checked="@Model.SelectedPermissions.Contains(permission.Id)"/>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <button type="submit" class="btn btn-warning">Submit</button>
+    <a asp-action="Roles" asp-controller="Admin" class="btn btn-danger">Cancel</a>
+</form>

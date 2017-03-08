@@ -7,7 +7,7 @@
     using System.Linq;
 
     /// <summary>
-    /// Used with a Service Filter.
+    /// Used as a Service Filter.
     /// </summary>
     public class DynamicallyAuthorize : ActionFilterAttribute
     {
@@ -30,8 +30,9 @@
                 string controllerName = (string)context.RouteData.Values["controller"];
 
                 var permissions = this.db.Permissions
-                        .Include(p => p.Role)
-                        .Where(p => p.Action == actionName && p.Controller == controllerName)
+                        .Include(p => p.PermissionsRoles)   
+                            .ThenInclude(pr => pr.Role)
+                        .Where(p => p.Action == actionName.ToLower() && p.Controller == controllerName.ToLower())
                         .ToList();
 
                 // If any explicitly stated permissions were found in the database
@@ -39,8 +40,11 @@
                 {
                     foreach (var permission in permissions)
                     {
-                        userIsAuthorized = context.HttpContext.User.IsInRole(permission.Role.Name);
-                        if (userIsAuthorized) { break; }
+                        foreach (var permissionRole in permission.PermissionsRoles)
+                        {
+                            if (userIsAuthorized) { break; }
+                            userIsAuthorized = context.HttpContext.User.IsInRole(permissionRole.Role.Name);
+                        }
                     }
                 }
             }

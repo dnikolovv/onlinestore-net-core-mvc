@@ -1,12 +1,12 @@
 ﻿namespace OnlineStore.Features.Category
 {
+    using Infrastructure.Attributes;
     using Infrastructure.Constants;
     using MediatR;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
 
-    [Authorize(Roles = Roles.ADMIN_ROLE)]
+    [ServiceFilter(typeof(DynamicallyAuthorize))]
     public class CategoryController : Controller
     {
         public CategoryController(IMediator mediator)

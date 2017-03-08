@@ -5,9 +5,9 @@
     using Infrastructure.ViewModels.Cart;
     using Infrastructure.ViewModels.Categories;
     using Infrastructure.ViewModels.Orders;
+    using Infrastructure.ViewModels.Permissions;
     using Infrastructure.ViewModels.Products;
     using Infrastructure.ViewModels.Users;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
     public class MappingProfile : Profile
     {
@@ -36,9 +36,14 @@
             CreateMap<CategoryEditViewModel, Features.Category.Edit.Command>();
 
             // Users
-            CreateMap<UserRole, RoleViewModel>(MemberList.Destination);
             CreateMap<User, UserViewModel>(MemberList.Destination)
                 .ForMember(u => u.Roles, opt => opt.Ignore());
+
+            // Roles
+            CreateMap<UserRole, RoleViewModel>(MemberList.Destination);
+
+            // Permissions
+            CreateMap<Permission, PermissionViewModel>(MemberList.Destination);
         }
     }
 }

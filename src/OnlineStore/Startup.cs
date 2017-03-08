@@ -7,6 +7,7 @@
     using Features.Account.Util;
     using Features.Category.Util;
     using Features.Order.Util;
+    using Features.Roles.Util;
     using FluentValidation.AspNetCore;
     using Infrastructure;
     using Infrastructure.Attributes;
@@ -65,6 +66,7 @@
 
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<ICategoryValidator, CategoryValidator>();
+            services.AddTransient<IRolesValidator, RolesValidator>();
             services.AddTransient<IOrderValidator, OrderValidator>();
             services.AddTransient<IUserValidator, UserValidator>();
 

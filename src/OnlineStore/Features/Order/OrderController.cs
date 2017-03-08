@@ -1,5 +1,6 @@
 ﻿namespace OnlineStore.Features.Order
 {
+    using Infrastructure.Attributes;
     using Infrastructure.Constants;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
@@ -17,7 +18,7 @@
         private readonly IMediator mediator;
 
         [HttpPost]
-        [Authorize(Roles = Roles.ADMIN_ROLE)]
+        [ServiceFilter(typeof(DynamicallyAuthorize))]
         public async Task<IActionResult> MarkShipped(MarkShipped.Command command)
         {
             await this.mediator.SendAsync(command);

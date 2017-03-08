@@ -8,7 +8,7 @@ using OnlineStore.Data;
 namespace OnlineStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170307123246_Initial")]
+    [Migration("20170308133912_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -202,13 +202,24 @@ namespace OnlineStore.Migrations
                     b.Property<string>("Controller")
                         .IsRequired();
 
+                    b.HasKey("Id");
+
+                    b.ToTable("Permissions");
+                });
+
+            modelBuilder.Entity("OnlineStore.Data.Models.PermissionRole", b =>
+                {
                     b.Property<int>("RoleId");
 
-                    b.HasKey("Id");
+                    b.Property<int>("PermissionId");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("PermissionsRoles");
                 });
 
             modelBuilder.Entity("OnlineStore.Data.Models.Product", b =>
@@ -374,10 +385,15 @@ namespace OnlineStore.Migrations
                         .HasForeignKey("ProductId");
                 });
 
-            modelBuilder.Entity("OnlineStore.Data.Models.Permission", b =>
+            modelBuilder.Entity("OnlineStore.Data.Models.PermissionRole", b =>
                 {
+                    b.HasOne("OnlineStore.Data.Models.Permission", "Permission")
+                        .WithMany("PermissionsRoles")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("OnlineStore.Data.Models.UserRole", "Role")
-                        .WithMany("Permissions")
+                        .WithMany("PermissionsRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

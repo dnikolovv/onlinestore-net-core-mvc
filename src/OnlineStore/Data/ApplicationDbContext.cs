@@ -30,8 +30,11 @@
 
         public DbSet<Permission> Permissions { get; set; }
 
+        public DbSet<PermissionRole> PermissionsRoles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<PermissionRole>().HasKey(pr => new { pr.RoleId, pr.PermissionId });
             base.OnModelCreating(modelBuilder);
         }
 
