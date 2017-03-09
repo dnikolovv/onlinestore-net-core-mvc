@@ -15,7 +15,11 @@
                 });
 
             CreateMap<Edit.Command, UserRole>(MemberList.Source)
-                .ForSourceMember(c => c.SelectedPermissions, opt => opt.Ignore());
+                .ForSourceMember(c => c.SelectedPermissions, opt => opt.Ignore())
+                .AfterMap((src, dest) =>
+                {
+                    dest.NormalizedName = src.Name.ToUpper();
+                });
         }
     }
 }
