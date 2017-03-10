@@ -45,6 +45,12 @@
             return View(model);
         }
 
+        public async Task<ViewResult> Permissions(Permissions.Query query)
+        {
+            var model = await this.mediator.SendAsync(query);
+            return View(model);
+        }
+
         public string GetContentUrl(string givenUrl)
         {
             // Used for calling Url.Content through jquery

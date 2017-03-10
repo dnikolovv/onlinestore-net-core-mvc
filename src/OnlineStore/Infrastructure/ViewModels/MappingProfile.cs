@@ -43,7 +43,9 @@
             CreateMap<UserRole, RoleViewModel>(MemberList.Destination);
 
             // Permissions
-            CreateMap<Permission, PermissionViewModel>(MemberList.Destination);
+            CreateMap<Permission, PermissionViewModel>(MemberList.Destination)
+                .ForMember(vm => vm.PermissionsRolesCount,
+                    opt => opt.Condition(p => p.PermissionsRoles != null));
         }
     }
 }

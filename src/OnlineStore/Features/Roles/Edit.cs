@@ -101,8 +101,6 @@
             // TODO: This is a duplicate of the one found in Create
             private async Task UpdatePermissions(UserRole role, ICollection<int> permissionIds)
             {
-                role.PermissionsRoles?.Clear();
-
                 if (permissionIds != null && permissionIds.Count > 0)
                 {
                     foreach (var permissionId in permissionIds)
@@ -112,10 +110,20 @@
 
                         if (permissionInDb != null)
                         {
-                            PermissionRole relationship = new PermissionRole { RoleId = role.Id, PermissionId = permissionInDb.Id };
-                            this.db.PermissionsRoles.Add(relationship);
+                            bool relationshipAlreadyExists = role.PermissionsRoles?
+                                .FirstOrDefault(pr => pr.PermissionId == permissionInDb.Id && pr.RoleId == role.Id) != null;
+
+                            if (!relationshipAlreadyExists)
+                            {
+                                PermissionRole relationship = new PermissionRole { RoleId = role.Id, PermissionId = permissionInDb.Id };
+                                this.db.PermissionsRoles.Add(relationship);
+                            }
                         }
-                    } 
+                    }
+                }
+                else
+                {
+                    role.PermissionsRoles?.Clear();
                 }
             }
         }
