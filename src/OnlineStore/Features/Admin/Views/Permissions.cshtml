@@ -18,8 +18,8 @@
     {
         <tr>
             <td class="col-md-2 text-left">@permission.Id</td>
-            <td>@permission.Action</td>
-            <td>@permission.Controller</td>
+            <td>@permission.Action.ToUpper()</td>
+            <td>@permission.Controller.ToUpper()</td>
             <td>@permission.PermissionsRolesCount</td>
             <td class="text-center">
                 <form asp-action="Remove" asp-controller="Permission" method="get">

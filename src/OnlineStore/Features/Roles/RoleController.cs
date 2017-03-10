@@ -1,6 +1,7 @@
 ﻿namespace OnlineStore.Features.Roles
 {
     using Infrastructure.Attributes;
+    using Infrastructure.Constants;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
@@ -27,6 +28,7 @@
         public async Task<IActionResult> Create(Create.Command command)
         {
             await this.mediator.SendAsync(command);
+            TempData["successMessage"] = SuccessMessages.SuccessfullyCreatedRole(command.Name);
             return this.RedirectToActionJson("Roles", "Admin");
         }
 
@@ -42,6 +44,7 @@
         public async Task<IActionResult> Edit(Edit.Command command)
         {
             await this.mediator.SendAsync(command);
+            TempData["successMessage"] = SuccessMessages.SuccessfullyEditedRole(command.Name);
             return this.RedirectToActionJson("Roles", "Admin");
         }
     }

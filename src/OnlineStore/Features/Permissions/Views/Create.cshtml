@@ -1,0 +1,24 @@
+﻿@model OnlineStore.Features.Permissions.Create.Command
+
+@{
+    ViewBag.Title = "Create new permission";
+    Layout = "_AdminLayout";
+}
+
+<form asp-action="Create" method="post">
+
+    <ul id="validationSummary" class="alert alert-danger hidden"></ul>
+
+    <div class="form-group">
+        <label asp-for="Action"></label>
+        <input asp-for="Action" class="form-control" />
+
+        <label asp-for="Controller"></label>
+        <input asp-for="Controller" class="form-control" />
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Create</button>
+        <a asp-action="Permissions" asp-controller="Admin" class="btn btn-default">Cancel</a>
+    </div>
+</form>

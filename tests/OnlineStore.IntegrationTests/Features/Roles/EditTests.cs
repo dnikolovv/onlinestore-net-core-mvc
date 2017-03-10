@@ -1,13 +1,12 @@
 ﻿namespace OnlineStore.IntegrationTests.Features.Roles
 {
     using Data.Models;
-    using System;
+    using Microsoft.EntityFrameworkCore;
+    using OnlineStore.Features.Roles;
+    using Shouldly;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using OnlineStore.Features.Roles;
-    using Microsoft.EntityFrameworkCore;
-    using Shouldly;
 
     public class EditTests
     {
@@ -22,26 +21,25 @@
 
             await fixture.InsertAsync(permission);
 
-            var createCommand = new Create.Command
+            var role = new UserRole
             {
                 Name = "Role1",
-                SelectedPermissions = new List<int> { permission.Id }
+                PermissionsRoles = new List<PermissionRole>
+                {
+                    new PermissionRole
+                    {
+                        PermissionId = permission.Id
+                    }
+                }
             };
 
-            await fixture.SendAsync(createCommand);
-
-            var roleInDb = await fixture.ExecuteDbContextAsync(db => db.Roles
-                .Include(r => r.PermissionsRoles)
-                    .ThenInclude(pr => pr.Permission)
-                .FirstOrDefaultAsync(r => r.Name == createCommand.Name));
-
-            roleInDb.PermissionsRoles.Count.ShouldBe(1);
+            await fixture.InsertAsync(role);
 
             // Act
             var editCommand = new Edit.Command
             {
-                Id = roleInDb.Id,
-                Name = roleInDb.Name + "Edited",
+                Id = role.Id,
+                Name = role.Name + "Edited",
                 SelectedPermissions = new List<int>()
             };
 
@@ -55,6 +53,48 @@
             editedRole.Name.ShouldBe(editCommand.Name);
             editedRole.NormalizedName.ShouldBe(editedRole.Name.ToUpper());
             editedRole.PermissionsRoles.Count.ShouldBe(editCommand.SelectedPermissions.Count);
+        }
+
+        public async Task QueryReturnsCorrectResults(SliceFixture fixture)
+        {
+            // Arrange
+            var permission = new Permission
+            {
+                Action = "Action1",
+                Controller = "Controller1"
+            };
+
+            await fixture.InsertAsync(permission);
+
+            var role = new UserRole
+            {
+                Name = "Role1",
+                PermissionsRoles = new List<PermissionRole>
+                {
+                    new PermissionRole
+                    {
+                        PermissionId = permission.Id
+                    }
+                }
+            };
+
+            await fixture.InsertAsync(role);
+
+            var query = new Edit.Query
+            {
+                RoleId = role.Id
+            };
+
+            // Act
+            var model = await fixture.SendAsync(query);
+
+            // Assert
+            model.Id.ShouldBe(role.Id);
+            model.Name.ShouldBe(role.Name);
+            model.SelectedPermissions.Count.ShouldBe(role.PermissionsRoles.Count);
+            model.SelectedPermissions.First().ShouldBe(permission.Id);
+            model.AvailablePermissions.Count.ShouldBe(1);
+            model.AvailablePermissions.First().Id.ShouldBe(permission.Id);
         }
     }
 }

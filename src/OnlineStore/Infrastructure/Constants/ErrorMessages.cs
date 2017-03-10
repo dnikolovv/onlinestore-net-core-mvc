@@ -19,5 +19,8 @@
 
         // Cart
         public const string CART_IS_EMPTY = "Your cart is empty";
+
+        // Permission
+        public const string PERMISSION_ALREADY_EXISTS = "A permission for this action and controller is already defined.";
     }
 }

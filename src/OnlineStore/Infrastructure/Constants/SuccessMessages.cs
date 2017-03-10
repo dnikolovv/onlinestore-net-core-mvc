@@ -1,11 +1,13 @@
-﻿namespace OnlineStore.Infrastructure.Constants
+﻿using System;
+
+namespace OnlineStore.Infrastructure.Constants
 {
     public static class SuccessMessages
     {
         // Categories
         public static string SuccessfullyCreatedCategory(string categoryName)
         {
-            return $"Successfuly created the category {categoryName}!";
+            return $"Successfully created the category {categoryName}!";
         }
 
         public static string SuccessfullyEditedCategory(string categoryName)
@@ -26,7 +28,7 @@
 
         public static string SuccessfullyCreatedProduct(string productName)
         {
-            return $"Successfuly added the product {productName}!";
+            return $"Successfully added the product {productName}!";
         }
 
         public static string SuccessfullyRemovedProduct(int productId)
@@ -37,7 +39,29 @@
         // Users
         public static string SuccessfullyEditedUser(string userName)
         {
-            return $"Successfuly edited {userName} permissions!";
+            return $"Successfully edited {userName} permissions!";
+        }
+
+        // Permission
+        public static string SuccessfullyCreatedPermission()
+        {
+            return "Successfully created permission!";
+        }
+
+        public static string SuccessfullyEditedPermission()
+        {
+            return "Successfully edited permission!";
+        }
+
+        // Roles
+        public static string SuccessfullyEditedRole(string name)
+        {
+            return $"Sucessfully edited role {name}!";
+        }
+
+        public static string SuccessfullyCreatedRole(string name)
+        {
+            return $"Sucessfully created role {name}!";
         }
     }
 }
