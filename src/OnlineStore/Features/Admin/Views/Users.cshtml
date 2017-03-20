@@ -27,16 +27,10 @@
                 </ul>
             </td>
             <td class="text-center">
-                <form asp-action="Remove" asp-controller="User" method="get">
-                    <a asp-action="Edit" asp-controller="User" class="btn btn-sm btn-warning"
-                       asp-route-userId="@user.Id">
-                        Edit
-                    </a>
-                    <input type="hidden" name="UserId" value="@user.Id" />
-                    <button type="submit" class="btn btn-danger btn-sm">
-                        Delete
-                    </button>
-                </form>
+                <a asp-action="Edit" asp-controller="User" class="btn btn-sm btn-warning"
+                   asp-route-userId="@user.Id">
+                    Edit
+                </a>
             </td>
         </tr>
     }

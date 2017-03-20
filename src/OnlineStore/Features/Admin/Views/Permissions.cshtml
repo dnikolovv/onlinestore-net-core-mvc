@@ -22,7 +22,7 @@
             <td>@permission.Controller.ToUpper()</td>
             <td>@permission.PermissionsRolesCount</td>
             <td class="text-center">
-                <form asp-action="Remove" asp-controller="Permission" method="get">
+                <form asp-action="Remove" asp-controller="Permission" method="post">
                     <a asp-action="Edit" asp-controller="Permission" class="btn btn-sm btn-warning"
                        asp-route-permissionId="@permission.Id">
                         Edit

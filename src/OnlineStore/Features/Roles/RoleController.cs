@@ -47,5 +47,14 @@
             TempData["successMessage"] = SuccessMessages.SuccessfullyEditedRole(command.Name);
             return this.RedirectToActionJson("Roles", "Admin");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Remove(Remove.Command command)
+        {
+            await this.mediator.SendAsync(command);
+            TempData["successMessage"] = SuccessMessages.SuccessfullyDeletedRole((int)command.RoleId);
+            return this.RedirectToActionJson("Roles", "Admin");
+        }
     }
 }

@@ -53,6 +53,11 @@ namespace OnlineStore.Infrastructure.Constants
             return "Successfully edited permission!";
         }
 
+        public static string SuccessfullyDeletedPermission(int id)
+        {
+            return $"Sucessfully deleted permission with Id {id}!";
+        }
+
         // Roles
         public static string SuccessfullyEditedRole(string name)
         {
@@ -62,6 +67,11 @@ namespace OnlineStore.Infrastructure.Constants
         public static string SuccessfullyCreatedRole(string name)
         {
             return $"Sucessfully created role {name}!";
+        }
+
+        public static string SuccessfullyDeletedRole(int roleId)
+        {
+            return $"Sucessfully deleted role {roleId}!";
         }
     }
 }

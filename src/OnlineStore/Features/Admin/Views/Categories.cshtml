@@ -17,7 +17,7 @@
             <td class="text-right">@item.Id</td>
             <td>@item.Name</td>
             <td class="span2">
-                <form asp-action="Remove" asp-controller="Category" method="get">
+                <form asp-action="Remove" asp-controller="Category" method="post">
                     <a asp-action="Edit" asp-controller="Category" class="btn btn-sm btn-warning"
                        asp-route-categoryId="@item.Id">
                         Edit

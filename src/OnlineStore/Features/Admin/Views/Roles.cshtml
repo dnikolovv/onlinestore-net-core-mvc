@@ -18,7 +18,7 @@
             <td class="col-md-4 text-left">@role.Id</td>
             <td>@role.Name</td>
             <td class="text-center">
-                <form asp-action="Remove" asp-controller="Role" method="get">
+                <form asp-action="Remove" asp-controller="Role" method="post">
                     <a asp-action="Edit" asp-controller="Role" class="btn btn-sm btn-warning"
                        asp-route-roleId="@role.Id">
                         Edit

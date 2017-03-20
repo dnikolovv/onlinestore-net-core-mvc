@@ -1,12 +1,12 @@
 ﻿namespace OnlineStore.Features.Users
 {
+    using Infrastructure.Attributes;
     using Infrastructure.Constants;
     using MediatR;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
 
-    [Authorize(Roles = Roles.ADMIN_ROLE)]
+    [ServiceFilter(typeof(DynamicallyAuthorize))]
     public class UserController : Controller
     {
         public UserController(IMediator mediator)

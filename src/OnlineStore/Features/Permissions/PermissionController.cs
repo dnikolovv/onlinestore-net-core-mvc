@@ -44,5 +44,14 @@
             TempData["successMessage"] = SuccessMessages.SuccessfullyEditedPermission();
             return this.RedirectToActionJson("Permissions", "Admin");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Remove(Remove.Command command)
+        {
+            await this.mediator.SendAsync(command);
+            TempData["successMessage"] = SuccessMessages.SuccessfullyDeletedPermission((int)command.PermissionId);
+            return this.RedirectToActionJson("Permissions", "Admin");
+        }
     }
 }
