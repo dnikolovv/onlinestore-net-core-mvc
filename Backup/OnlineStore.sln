@@ -1,17 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EA3B955D-5C3D-46AF-9776-8DF98800355C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4F5E2B7E-92F9-4C0D-8223-BF03F0CC086B}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "OnlineStore", "src\OnlineStore\OnlineStore.xproj", "{7BE272F8-E577-4385-942E-F7C70F7F37B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BD90FAA9-B07D-4815-A64D-C35580576291}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore", "src\OnlineStore\OnlineStore.csproj", "{7BE272F8-E577-4385-942E-F7C70F7F37B0}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.IntegrationTests", "tests\OnlineStore.IntegrationTests\OnlineStore.IntegrationTests.csproj", "{0D7FB75B-DFA2-400E-BFBE-12E832C91902}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "OnlineStore.IntegrationTests", "tests\OnlineStore.IntegrationTests\OnlineStore.IntegrationTests.xproj", "{0D7FB75B-DFA2-400E-BFBE-12E832C91902}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

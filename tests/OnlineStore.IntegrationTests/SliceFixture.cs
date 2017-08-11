@@ -6,6 +6,9 @@
     using FakeItEasy;
     using MediatR;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Respawn;
@@ -104,6 +107,18 @@
                 }
                 return db.SaveChangesAsync();
             });
+        }
+
+        public TController InstantiateController<TController>()
+            where TController : Controller
+        {
+            var httpContext = A.Fake<HttpContext>();
+            httpContext.Session = A.Fake<ISession>();
+
+            var controller = A.Fake<TController>();
+            controller.TempData = new TempDataDictionary(httpContext, A.Fake<ITempDataProvider>());
+
+            return controller;
         }
 
         public Task<T> FindAsync<T>(int id)
