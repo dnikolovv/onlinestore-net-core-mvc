@@ -2,7 +2,7 @@
 {
     using AutoMapper;
     using Data.Models;
-    using Infrastructure.ViewModels.Categories;
+    using OnlineStore.Infrastructure.ViewModels.Categories;
     using Microsoft.EntityFrameworkCore;
     using Shouldly;
     using OnlineStore.Features.Category;

@@ -2,7 +2,7 @@
 {
     using AutoMapper;
     using Data.Models;
-    using Infrastructure.ViewModels.Products;
+    using OnlineStore.Infrastructure.ViewModels.Products;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using Shouldly;

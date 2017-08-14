@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
     using Newtonsoft.Json;
+    using System.Net;
 
     public class ValidatorActionFilter : IActionFilter
     {
@@ -12,21 +13,22 @@
             {
                 if (filterContext.HttpContext.Request.Method == "GET")
                 {
-                    var result = new BadRequestResult();
-                    filterContext.Result = result;
+                    filterContext.Result = new BadRequestResult();
                 }
                 else
                 {
                     var result = new ContentResult();
+
                     string content = JsonConvert.SerializeObject(filterContext.ModelState,
                         new JsonSerializerSettings
                         {
                             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                         });
+
                     result.Content = content;
                     result.ContentType = "application/json";
 
-                    filterContext.HttpContext.Response.StatusCode = 400;
+                    filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     filterContext.Result = result;
                 }
             }

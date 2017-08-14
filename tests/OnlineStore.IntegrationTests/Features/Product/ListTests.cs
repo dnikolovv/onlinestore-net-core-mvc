@@ -2,7 +2,7 @@
 {
     using AutoMapper.QueryableExtensions;
     using Data.Models;
-    using Infrastructure.ViewModels.Products;
+    using OnlineStore.Infrastructure.ViewModels.Products;
     using Microsoft.EntityFrameworkCore;
     using Shouldly;
     using OnlineStore.Features.Product;
