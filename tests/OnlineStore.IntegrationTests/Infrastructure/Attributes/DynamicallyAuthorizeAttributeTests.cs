@@ -48,7 +48,7 @@
                     string controllerToTestOn = "TestController";
                     var role = await AddSampleRoleToDatabase(fixture, db, actionToTestOn, controllerToTestOn);
 
-                    var filterContext = SetupFilterContext();
+                    var filterContext = SetupFilterContextWithUser();
                     var serviceFilter = new DynamicallyAuthorizeServiceFilter(db);
 
                     // Act
@@ -60,7 +60,7 @@
                             .That.IsInstanceOf(typeof(UnauthorizedResult)))
                     .MustNotHaveHappened();
 
-                    ActionExecutingContext SetupFilterContext()
+                    ActionExecutingContext SetupFilterContextWithUser()
                     {
                         var context = fixture.GetActionExecutingContext("GET");
 

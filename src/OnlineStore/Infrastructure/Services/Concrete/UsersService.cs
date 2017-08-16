@@ -28,9 +28,6 @@
 
             if (user != null)
             {
-                // Make sure the user is not logged when attempting to do so
-                await signInManager.SignOutAsync();
-
                 SignInResult signIn = await signInManager.PasswordSignInAsync(user, password, false, false);
 
                 if (signIn.Succeeded)
@@ -80,26 +77,15 @@
             return await this.userManager.FindByNameAsync(userName);
         }
 
-        public async Task<User> FindByIdAsync(string userId)
-        {
-            return await this.userManager.FindByIdAsync(userId);
-        }
-
         public async Task<IEnumerable<UserRole>> GetRolesAsync(string userId)
         {
-            var user = await this.userManager.FindByIdAsync(userId);
-
-            // TODO: Optimize this so it doesn't throw a query for each user
-            var rolesToQuery = new List<int>();
-
-            foreach (var role in user.Roles)
-            {
-                rolesToQuery.Add(role.RoleId);
-            }
-
-            return await this.db.Roles
-                .Where(r => rolesToQuery.Contains(r.Id))
+            var roles = await this.db
+                .Roles
+                .Include(r => r.Users)
+                .Where(r => r.Users.Select(u => u.UserId).Contains(int.Parse(userId)))
                 .ToListAsync();
+
+            return roles;
         }
     }
 }

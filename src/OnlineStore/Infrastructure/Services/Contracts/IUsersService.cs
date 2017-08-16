@@ -10,8 +10,6 @@
 
         Task<bool> RegisterAsync(User user, string password);
 
-        Task<User> FindByIdAsync(string userId);
-
         Task<User> FindByUserNameAsync(string userName);
 
         Task<IEnumerable<UserRole>> GetRolesAsync(string userId);
