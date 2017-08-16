@@ -72,7 +72,7 @@
             services.AddTransient<IOrderValidator, OrderValidator>();
             services.AddTransient<IUserValidator, UserValidator>();
 
-            services.AddScoped<DynamicallyAuthorize>();
+            services.AddScoped<DynamicallyAuthorizeServiceFilter>();
 
             services.AddMvc(opt =>
             {

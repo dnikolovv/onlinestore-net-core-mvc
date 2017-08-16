@@ -6,7 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
 
-    [ServiceFilter(typeof(DynamicallyAuthorize))]
+    [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
     public class UserController : Controller
     {
         public UserController(IMediator mediator)

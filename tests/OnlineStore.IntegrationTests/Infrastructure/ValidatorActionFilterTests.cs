@@ -1,11 +1,7 @@
 ﻿namespace OnlineStore.IntegrationTests.Infrastructure
 {
-    using FakeItEasy;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Abstractions;
     using Microsoft.AspNetCore.Mvc.Filters;
-    using Microsoft.AspNetCore.Routing;
     using Newtonsoft.Json;
     using OnlineStore.Infrastructure;
     using Shouldly;
@@ -19,7 +15,7 @@
         {
             // Arrange
             var filter = new ValidatorActionFilter();
-            var filterContext = SetupContext("GET");
+            var filterContext = fixture.GetActionExecutingContext("GET");
 
             filterContext.ModelState.AddModelError("Error", "An error has occured!");
 
@@ -34,7 +30,7 @@
         {
             // Arrange
             var filter = new ValidatorActionFilter();
-            var filterContext = SetupContext("POST");
+            var filterContext = fixture.GetActionExecutingContext("POST");
 
             filterContext.ModelState.AddModelError("Error", "An error has occured!");
 
@@ -49,7 +45,7 @@
         {
             // Arrange
             var filter = new ValidatorActionFilter();
-            var filterContext = SetupContext("POST");
+            var filterContext = fixture.GetActionExecutingContext("POST");
             Dictionary<string, CustomModelStateEntry> errorsToExpect = ArrangeExpectedErrors(filterContext);
 
             // Act
@@ -127,27 +123,6 @@
             {
                 return this.ErrorMessage;
             }
-        }
-
-        private ActionExecutingContext SetupContext(string requestMethod)
-        {
-            var httpContext = A.Fake<HttpContext>();
-            httpContext.Request.Method = requestMethod;
-
-            var actionContext = new ActionContext()
-            {
-                HttpContext = httpContext,
-                RouteData = A.Fake<RouteData>(),
-                ActionDescriptor = A.Fake<ActionDescriptor>()
-            };
-
-            var filterContext = new ActionExecutingContext(
-                actionContext,
-                new List<IFilterMetadata>(),
-                new Dictionary<string, object>(),
-                A.Fake<Controller>());
-
-            return filterContext;
         }
     }
 }

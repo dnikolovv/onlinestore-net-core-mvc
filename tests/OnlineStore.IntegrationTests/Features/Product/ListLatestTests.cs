@@ -19,7 +19,7 @@
 
             await fixture.InsertAsync(category);
 
-            var createProductCommands = new List<Create.Command>
+            var createProductCommands = new Create.Command[]
             {
                 new Create.Command
                 {
@@ -72,7 +72,7 @@
             var result = await fixture.SendAsync(query);
 
             // Assert
-            var productsReturnedArray = result.ToArray();
+            var productsReturnedArray = result.OrderByDescending(p => p.Name).ToArray();
 
             productsReturnedArray.Count().ShouldBe(2);
             productsReturnedArray[0].Name.ShouldBe("Product5");

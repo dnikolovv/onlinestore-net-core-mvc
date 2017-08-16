@@ -35,7 +35,7 @@
             return View(model);
         }
 
-        [ServiceFilter(typeof(DynamicallyAuthorize))]
+        [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
         [HttpGet]
         public async Task<IActionResult> Edit(Edit.Query query)
         {
@@ -43,7 +43,7 @@
             return View(model);
         }
 
-        [ServiceFilter(typeof(DynamicallyAuthorize))]
+        [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Edit.Command command)
@@ -53,7 +53,7 @@
             return this.RedirectToActionJson("Products", "Admin");
         }
 
-        [ServiceFilter(typeof(DynamicallyAuthorize))]
+        [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
         [HttpGet]
         public async Task<ViewResult> Create(Create.Query query)
         {
@@ -61,7 +61,7 @@
             return View(model);
         }
 
-        [ServiceFilter(typeof(DynamicallyAuthorize))]
+        [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Create.Command command)
@@ -71,7 +71,7 @@
             return this.RedirectToActionJson("Products", "Admin");
         }
 
-        [ServiceFilter(typeof(DynamicallyAuthorize))]
+        [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Remove(Remove.Command command)

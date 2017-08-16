@@ -13,7 +13,7 @@
         public async Task SuccessfullEditSetsSuccessMessage(SliceFixture fixture)
         {
             // Arrange
-            var controller = fixture.InstantiateController<UserController>();
+            var controller = fixture.GetController<UserController>();
             var user = AddUserToDb();
 
             // Act

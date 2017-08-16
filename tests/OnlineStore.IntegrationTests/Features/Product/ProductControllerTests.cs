@@ -11,7 +11,7 @@
         public async Task SuccessfullCreationSetsSuccessMessage(SliceFixture fixture)
         {
             // Arrange
-            var controller = fixture.InstantiateController<ProductController>();
+            var controller = fixture.GetController<ProductController>();
 
             // Act
             var createCommand = new Create.Command()
@@ -33,7 +33,7 @@
         {
             // Arrange
             var product = await AddProductToDatabase(fixture);
-            var controller = fixture.InstantiateController<ProductController>();
+            var controller = fixture.GetController<ProductController>();
 
             // Act
             var editCommand = new Edit.Command
@@ -52,7 +52,7 @@
         {
             // Arrange
             var product = AddProductToDatabase(fixture);
-            var controller = fixture.InstantiateController<ProductController>();
+            var controller = fixture.GetController<ProductController>();
 
             // Act
             var removeCommand = new Remove.Command

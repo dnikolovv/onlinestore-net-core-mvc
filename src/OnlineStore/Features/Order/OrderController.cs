@@ -18,7 +18,7 @@
         private readonly IMediator mediator;
 
         [HttpPost]
-        [ServiceFilter(typeof(DynamicallyAuthorize))]
+        [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
         public async Task<IActionResult> MarkShipped(MarkShipped.Command command)
         {
             await this.mediator.SendAsync(command);

@@ -11,7 +11,7 @@
         public void SuccessfullCreationSetsSuccessMessage(SliceFixture fixture)
         {
             // Arrange
-            var controller = fixture.InstantiateController<PermissionController>();
+            var controller = fixture.GetController<PermissionController>();
 
             // Act
             var createCommand = new Create.Command
@@ -30,7 +30,7 @@
         public async Task SuccessfulEditSetsSuccessMessage(SliceFixture fixture)
         {
             // Arrange
-            var controller = fixture.InstantiateController<PermissionController>();
+            var controller = fixture.GetController<PermissionController>();
             var permission = await AddPermissionToDb(fixture);
 
             // Act
@@ -49,7 +49,7 @@
         public async Task SuccessfullRemovalSetsSuccessMessage(SliceFixture fixture)
         {
             // Arrange
-            var controller = fixture.InstantiateController<PermissionController>();
+            var controller = fixture.GetController<PermissionController>();
             var permission = await AddPermissionToDb(fixture);
 
             // Act

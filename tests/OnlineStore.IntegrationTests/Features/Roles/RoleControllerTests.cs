@@ -11,7 +11,7 @@
         public async Task SuccessfullCreationSetsSuccessMessage(SliceFixture fixture)
         {
             // Arrange
-            var controller = fixture.InstantiateController<RoleController>();
+            var controller = fixture.GetController<RoleController>();
 
             // Act
             var createCommand = new Create.Command
@@ -29,7 +29,7 @@
         public async Task SuccessfullEditSetsSuccessMessage(SliceFixture fixture)
         {
             // Arrange
-            var controller = fixture.InstantiateController<RoleController>();
+            var controller = fixture.GetController<RoleController>();
             var role = AddRoleToDb(fixture);
 
             // Act
@@ -48,7 +48,7 @@
         public async Task SuccessfullRemovalSetsSuccessMessage(SliceFixture fixture)
         {
             // Arrange
-            var controller = fixture.InstantiateController<RoleController>();
+            var controller = fixture.GetController<RoleController>();
             var role = AddRoleToDb(fixture);
 
             // Act

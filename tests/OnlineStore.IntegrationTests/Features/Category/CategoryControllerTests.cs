@@ -11,7 +11,7 @@
         public async Task SuccessfulCreationSetsSuccessMessage(SliceFixture fixture)
         {
             // Arrange
-            var controller = fixture.InstantiateController<CategoryController>();
+            var controller = fixture.GetController<CategoryController>();
 
             // Act
             var createCommand = new Create.Command { Name = "Some category" };
@@ -26,7 +26,7 @@
         {
             // Arrange
             var category = AddCategoryToDatabase(fixture);
-            var controller = fixture.InstantiateController<CategoryController>();
+            var controller = fixture.GetController<CategoryController>();
 
             // Act
             var editCommand = new Edit.Command { Id = category.Id, Name = "Edited name" };
@@ -41,7 +41,7 @@
         {
             // Arrange
             var category = AddCategoryToDatabase(fixture);
-            var controller = fixture.InstantiateController<CategoryController>();
+            var controller = fixture.GetController<CategoryController>();
 
             // Act
             var removeCommand = new Remove.Command { Id = category.Id };

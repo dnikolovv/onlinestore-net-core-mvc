@@ -8,11 +8,15 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Abstractions;
+    using Microsoft.AspNetCore.Mvc.Filters;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
+    using Microsoft.AspNetCore.Routing;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Respawn;
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
 
@@ -109,7 +113,7 @@
             });
         }
 
-        public TController InstantiateController<TController>()
+        public TController GetController<TController>()
             where TController : Controller
         {
             var httpContext = A.Fake<HttpContext>();
@@ -119,6 +123,33 @@
             controller.TempData = new TempDataDictionary(httpContext, A.Fake<ITempDataProvider>());
 
             return controller;
+        }
+
+        public ActionExecutingContext GetActionExecutingContext(string requestMethod)
+        {
+            var httpContext = A.Fake<HttpContext>();
+            httpContext.Request.Method = requestMethod;
+
+            var actionContext = new ActionContext()
+            {
+                HttpContext = httpContext,
+                RouteData = A.Fake<RouteData>(),
+                ActionDescriptor = A.Fake<ActionDescriptor>()
+            };
+
+            //var filterContext = new ActionExecutingContext(
+            //    actionContext,
+            //    new List<IFilterMetadata>(),
+            //    new Dictionary<string, object>(),
+            //    A.Fake<Controller>());
+
+            var filterContext = A.Fake<ActionExecutingContext>(context => context.WithArgumentsForConstructor(() => new ActionExecutingContext(
+                actionContext,
+                new List<IFilterMetadata>(),
+                new Dictionary<string, object>(),
+                A.Fake<Controller>())));
+
+            return filterContext;
         }
 
         public Task<T> FindAsync<T>(int id)
