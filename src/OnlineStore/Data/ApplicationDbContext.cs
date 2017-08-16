@@ -10,6 +10,11 @@
 
     public class ApplicationDbContext : IdentityDbContext<User, UserRole, int>
     {
+        public ApplicationDbContext()
+        {
+
+        }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -38,7 +43,7 @@
             base.OnModelCreating(modelBuilder);
         }
 
-        public void BeginTransaction()
+        public virtual void BeginTransaction()
         {
             if (this.currentTransaction != null)
             {
@@ -48,7 +53,7 @@
             this.currentTransaction = Database.BeginTransaction(IsolationLevel.ReadCommitted);
         }
 
-        public async Task CommitTransactionAsync()
+        public virtual async Task CommitTransactionAsync()
         {
             try
             {
@@ -70,7 +75,7 @@
             }
         }
 
-        public void RollbackTransaction()
+        public virtual void RollbackTransaction()
         {
             try
             {
