@@ -1,11 +1,10 @@
 ﻿namespace OnlineStore.IntegrationTests.Features.Product
 {
-    using OnlineStore.Features.Product;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Data.Models;
-    using System.Linq;
+    using OnlineStore.Features.Product;
     using Shouldly;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     public class ListLatestTests
     {
@@ -72,7 +71,7 @@
             var result = await fixture.SendAsync(query);
 
             // Assert
-            var productsReturnedArray = result.OrderByDescending(p => p.Name).ToArray();
+            var productsReturnedArray = result.OrderByDescending(p => p.DateAdded).ToArray();
 
             productsReturnedArray.Count().ShouldBe(2);
             productsReturnedArray[0].Name.ShouldBe("Product5");

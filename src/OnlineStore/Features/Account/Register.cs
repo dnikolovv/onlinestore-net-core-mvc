@@ -6,6 +6,7 @@
     using Infrastructure.Constants;
     using Infrastructure.Services.Contracts;
     using MediatR;
+    using OnlineStore.Data;
     using System.Threading.Tasks;
     using Util;
 

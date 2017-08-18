@@ -152,7 +152,7 @@
                         .Users
                         .FirstOrDefaultAsync(u => u.UserName == registerUserCommand.UserName);
 
-                    await AssignRoleToUser(fixture, role, user);
+                    await AssignRoleToUserAsync(fixture, role, user);
 
                     var userManager = (UserManager<User>)sp.GetService(typeof(UserManager<User>));
                     var usersService = new UsersService(userManager, GetFakeSignInManager(userManager), db);
@@ -168,7 +168,75 @@
             });
         }
 
-        private static async Task AssignRoleToUser(SliceFixture fixture, UserRole role, User user)
+        public async Task CanUpdate(SliceFixture fixture)
+        {
+            await fixture.ExecuteScopeAsync(async sp =>
+            {
+                await fixture.ExecuteDbContextAsync(async db =>
+                {
+                    // Arrange
+                    var registerUserCommand = new Register.Command
+                    {
+                        UserName = "SomeUser",
+                        Password = "Password123"
+                    };
+
+                    await fixture.SendAsync(registerUserCommand);
+
+                    var user = await db
+                        .Users
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(u => u.UserName == registerUserCommand.UserName);
+
+                    var userManager = (UserManager<User>)sp.GetService(typeof(UserManager<User>));
+                    var usersService = new UsersService(userManager, GetFakeSignInManager(userManager), db);
+
+                    // Act
+                    user.UserName = "updated";
+                    var updateResult = await usersService.UpdateAsync(user);
+
+                    // Assert
+                    updateResult.ShouldBeTrue();
+
+                    var userAfterUpdate = await usersService.FindByUserNameAsync(user.UserName);
+                    userAfterUpdate.UserName.ShouldBe(user.UserName);
+                });
+            });
+        }
+
+        public async Task CanRegister(SliceFixture fixture)
+        {
+            await fixture.ExecuteScopeAsync(async sp =>
+            {
+                await fixture.ExecuteDbContextAsync(async db =>
+                {
+                    // Arrange
+                    var userManager = (UserManager<User>)sp.GetService(typeof(UserManager<User>));
+                    var usersService = new UsersService(userManager, GetFakeSignInManager(userManager), db);
+
+                    var userToRegister = new User
+                    {
+                        FirstName = "Peter",
+                        LastName = "McDonald",
+                        UserName = "SomeUserName"
+                    };
+
+                    // Act
+                    var registeredSuccessfully = await usersService.RegisterAsync(userToRegister, "somePassword123");
+
+                    // Assert
+                    registeredSuccessfully.ShouldBeTrue();
+
+                    var registeredUser = await usersService.FindByUserNameAsync(userToRegister.UserName);
+
+                    registeredUser.ShouldNotBeNull();
+                    registeredUser.FirstName.ShouldBe(userToRegister.FirstName);
+                    registeredUser.LastName.ShouldBe(userToRegister.LastName);
+                });
+            });
+        }
+
+        private static async Task AssignRoleToUserAsync(SliceFixture fixture, UserRole role, User user)
         {
             var assignRoleToUserCommand = new OnlineStore.Features.Users.Edit.Command
             {

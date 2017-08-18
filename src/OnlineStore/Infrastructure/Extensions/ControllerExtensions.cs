@@ -1,6 +1,7 @@
 ﻿namespace OnlineStore.Features
 {
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Routing;
     using Newtonsoft.Json;
     using System.Net;
 
@@ -21,7 +22,11 @@
         public static ActionResult RedirectToActionJson<TController>(this TController controller, string action, string controllerName)
             where TController : Controller
         {
-            return controller.JsonNet(new { redirect = controller.Url?.Action(action, controllerName) });
+            return controller.JsonNet(new { redirect = controller.Url?.Action(new UrlActionContext()
+            {
+                Action = action,
+                Controller = controllerName
+            })});
         }
 
         public static ContentResult JsonNet(this Controller controller, object model, HttpStatusCode statusCode = HttpStatusCode.OK)

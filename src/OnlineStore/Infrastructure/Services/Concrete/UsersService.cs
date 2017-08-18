@@ -41,11 +41,14 @@
 
         public async Task<bool> UpdateAsync(User user)
         {
-            IdentityResult update = await this.userManager.UpdateAsync(user);
-
-            if (update.Succeeded)
+            if (user != null)
             {
-                return true;
+                IdentityResult update = await this.userManager.UpdateAsync(user);
+
+                if (update.Succeeded)
+                {
+                    return true;
+                } 
             }
 
             return false;
@@ -60,7 +63,6 @@
                 Cart cart = new Cart() { User = user, UserId = user.Id };
                 db.Carts.Add(cart);
                 user.Cart = cart;
-                await this.db.SaveChangesAsync();
                 return true;
             }
 

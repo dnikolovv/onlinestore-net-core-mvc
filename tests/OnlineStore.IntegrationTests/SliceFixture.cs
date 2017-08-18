@@ -137,12 +137,6 @@
                 ActionDescriptor = A.Fake<ActionDescriptor>()
             };
 
-            //var filterContext = new ActionExecutingContext(
-            //    actionContext,
-            //    new List<IFilterMetadata>(),
-            //    new Dictionary<string, object>(),
-            //    A.Fake<Controller>());
-
             var filterContext = A.Fake<ActionExecutingContext>(context => context.WithArgumentsForConstructor(() => new ActionExecutingContext(
                 actionContext,
                 new List<IFilterMetadata>(),

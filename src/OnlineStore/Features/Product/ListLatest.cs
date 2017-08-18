@@ -28,11 +28,11 @@
             public async Task<IEnumerable<ProductViewModel>> Handle(Query message)
             {
                 var productsQueryable = this.db.Products
-                    .OrderByDescending(p => p.DateAdded);
+                    .OrderByDescending(p => p.DateAdded)
+                    .Take(message.NumberOfItems);
 
                 var viewModels = await productsQueryable
                     .ProjectTo<ProductViewModel>()
-                    .Take(message.NumberOfItems)
                     .ToListAsync();
 
                 return viewModels;
