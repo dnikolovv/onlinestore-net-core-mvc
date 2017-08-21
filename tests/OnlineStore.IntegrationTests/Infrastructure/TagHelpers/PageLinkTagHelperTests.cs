@@ -1,6 +1,7 @@
 ﻿namespace OnlineStore.IntegrationTests.Infrastructure.TagHelpers
 {
     using FakeItEasy;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Routing;
     using Microsoft.AspNetCore.Razor.TagHelpers;
     using OnlineStore.Infrastructure.TagHelpers;
@@ -23,6 +24,26 @@
 
             // Assert
             var expectedContent = "<a href=\"\">1</a><a href=\"\">2</a><a href=\"\">3</a>";
+            output.Content.GetContent().ShouldBe(expectedContent);
+        }
+
+        public void CorrectlyAppliesHrefTags(SliceFixture fixture)
+        {
+            // Arrange
+            var href = "/TestController/TestAction";
+            var tagHelper = GetTagHelper(1, 10, 10, href);
+
+            tagHelper.PageAction = "TestAction";
+            tagHelper.PageUrlValues.Add("category", "TestCategory");
+
+            var context = GetTagHelperContext();
+            var output = GetTagHelperOutput();
+
+            // Act
+            tagHelper.Process(context, output);
+
+            // Assert
+            var expectedContent = $"<a href=\"{href}\">1</a>";
             output.Content.GetContent().ShouldBe(expectedContent);
         }
         
@@ -68,10 +89,20 @@
                 Guid.NewGuid().ToString("N"));
         }
 
-        private static PageLinkTagHelper GetTagHelper(int page, int itemsPerPage, int totalItems)
+        private static PageLinkTagHelper GetTagHelper(int page, int itemsPerPage, int totalItems, string href = "")
         {
-            // Arrange
-            return new PageLinkTagHelper(A.Fake<IUrlHelperFactory>())
+            var urlHelper = A.Fake<IUrlHelper>();
+            A.CallTo(() => urlHelper.Action(new UrlActionContext()))
+                .WithAnyArguments()
+                .Returns(href);
+            
+            var urlHelperFactory = A.Fake<IUrlHelperFactory>();
+            A.CallTo(() =>
+                urlHelperFactory.GetUrlHelper(new ActionContext()))
+                .WithAnyArguments()
+                .Returns(urlHelper);
+
+            var tagHelper = new PageLinkTagHelper(urlHelperFactory)
             {
                 PageModel = new ViewModels.PagingInfo
                 {
@@ -80,6 +111,8 @@
                     TotalItems = totalItems
                 }
             };
+
+            return tagHelper;
         }
     }
 }

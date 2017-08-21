@@ -19,8 +19,6 @@
 
             var urlHelper = A.Fake<IUrlHelper>();
             
-            // TODO: Think of a way to test this without so much coupling to
-            // implementation details
             A.CallTo(() => urlHelper
                 .Action(new UrlActionContext()))
                 .WithAnyArguments()
@@ -43,11 +41,11 @@
             var result = filterContext.Result as ContentResult;
             result.ContentType.ShouldBe("application/json");
 
-            HelperReturnResult deserializedContent = JsonConvert.DeserializeObject<HelperReturnResult>(result.Content);
+            HelperRedirectResult deserializedContent = JsonConvert.DeserializeObject<HelperRedirectResult>(result.Content);
             deserializedContent.Redirect.ShouldBe("Login/Account/");
         }
         
-        private class HelperReturnResult
+        private class HelperRedirectResult
         {
             public string Redirect { get; set; }
         }
