@@ -4,8 +4,8 @@
     using Infrastructure.Attributes;
     using Infrastructure.Constants;
     using MediatR;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using OnlineStore.Infrastructure.Extensions;
     using System.Threading.Tasks;
 
     public class ProductController : Controller
@@ -49,7 +49,7 @@
         public async Task<IActionResult> Edit(Edit.Command command)
         {
             await this.mediator.SendAsync(command);
-            TempData["successMessage"] = SuccessMessages.SuccessfullyEditedProduct(command.Name);
+            TempData.SetSuccessMessage(SuccessMessages.SuccessfullyEditedProduct(command.Name));
             return this.RedirectToActionJson("Products", "Admin");
         }
 
@@ -67,7 +67,7 @@
         public async Task<IActionResult> Create(Create.Command command)
         {
             await this.mediator.SendAsync(command);
-            TempData["successMessage"] = SuccessMessages.SuccessfullyCreatedProduct(command.Name);
+            TempData.SetSuccessMessage(SuccessMessages.SuccessfullyCreatedProduct(command.Name));
             return this.RedirectToActionJson("Products", "Admin");
         }
 
@@ -77,7 +77,7 @@
         public async Task<IActionResult> Remove(Remove.Command command)
         {
             await this.mediator.SendAsync(command);
-            TempData["successMessage"] = SuccessMessages.SuccessfullyRemovedProduct(command.ProductId);
+            TempData.SetSuccessMessage(SuccessMessages.SuccessfullyRemovedProduct(command.ProductId));
             return RedirectToAction("Products", "Admin");
         }
     }

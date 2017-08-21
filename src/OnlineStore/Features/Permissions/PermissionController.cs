@@ -3,6 +3,7 @@
     using Infrastructure.Constants;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
+    using OnlineStore.Infrastructure.Extensions;
     using System.Threading.Tasks;
 
     public class PermissionController : Controller
@@ -25,7 +26,7 @@
         public IActionResult Create(Create.Command command)
         {
             this.mediator.Send(command);
-            TempData["successMessage"] = SuccessMessages.SuccessfullyCreatedPermission();
+            TempData.SetSuccessMessage(SuccessMessages.SuccessfullyCreatedPermission());
             return this.RedirectToActionJson("Permissions", "Admin");
         }
 
@@ -41,7 +42,7 @@
         public async Task<IActionResult> Edit(Edit.Command command)
         {
             await this.mediator.SendAsync(command);
-            TempData["successMessage"] = SuccessMessages.SuccessfullyEditedPermission();
+            TempData.SetSuccessMessage(SuccessMessages.SuccessfullyEditedPermission());
             return this.RedirectToActionJson("Permissions", "Admin");
         }
 
@@ -50,7 +51,7 @@
         public async Task<IActionResult> Remove(Remove.Command command)
         {
             await this.mediator.SendAsync(command);
-            TempData["successMessage"] = SuccessMessages.SuccessfullyDeletedPermission((int)command.PermissionId);
+            TempData.SetSuccessMessage(SuccessMessages.SuccessfullyDeletedPermission((int)command.PermissionId));
             return this.RedirectToActionJson("Permissions", "Admin");
         }
     }

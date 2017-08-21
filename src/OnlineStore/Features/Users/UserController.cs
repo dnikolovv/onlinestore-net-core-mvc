@@ -4,6 +4,7 @@
     using Infrastructure.Constants;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
+    using OnlineStore.Infrastructure.Extensions;
     using System.Threading.Tasks;
 
     [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
@@ -28,7 +29,7 @@
         public async Task<IActionResult> Edit(Edit.Command command)
         {
             await this.mediator.SendAsync(command);
-            TempData["SuccessMessage"] = SuccessMessages.SuccessfullyEditedUser(command.UserName);
+            TempData.SetSuccessMessage(SuccessMessages.SuccessfullyEditedUser(command.UserName));
             return this.RedirectToActionJson("Users", "Admin");
         }
     }

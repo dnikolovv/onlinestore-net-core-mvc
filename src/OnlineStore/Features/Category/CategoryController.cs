@@ -4,6 +4,7 @@
     using Infrastructure.Constants;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
+    using OnlineStore.Infrastructure.Extensions;
     using System.Threading.Tasks;
 
     [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
@@ -27,7 +28,7 @@
         public async Task<IActionResult> Create(Create.Command command)
         {
             await this.mediator.SendAsync(command);
-            TempData["successMessage"] = SuccessMessages.SuccessfullyCreatedCategory(command.Name);
+            TempData.SetSuccessMessage(SuccessMessages.SuccessfullyCreatedCategory(command.Name));
             return this.RedirectToActionJson("Categories", "Admin");
         }
 
@@ -43,7 +44,7 @@
         public async Task<IActionResult> Edit(Edit.Command command)
         {
             await this.mediator.SendAsync(command);
-            TempData["successMessage"] = SuccessMessages.SuccessfullyEditedCategory(command.Name);
+            TempData.SetSuccessMessage(SuccessMessages.SuccessfullyEditedCategory(command.Name));
             return this.RedirectToActionJson("Categories", "Admin");
         }
 
@@ -59,7 +60,7 @@
         public async Task<IActionResult> Remove(Remove.Command command)
         {
             await this.mediator.SendAsync(command);
-            TempData["successMessage"] = SuccessMessages.SuccessfullyRemovedCategory(command.Name);
+            TempData.SetSuccessMessage(SuccessMessages.SuccessfullyRemovedCategory(command.Name));
             return this.RedirectToActionJson("Categories", "Admin");
         }
     }
