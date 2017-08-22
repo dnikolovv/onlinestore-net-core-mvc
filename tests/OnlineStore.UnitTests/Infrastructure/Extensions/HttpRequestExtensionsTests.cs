@@ -1,13 +1,15 @@
-﻿namespace OnlineStore.IntegrationTests.Infrastructure.Extensions
+﻿namespace OnlineStore.UnitTests.Infrastructure.Extensions
 {
     using FakeItEasy;
     using Microsoft.AspNetCore.Http;
     using OnlineStore.Infrastructure.Extensions;
     using Shouldly;
+    using Xunit;
 
     public class HttpRequestExtensionsTests
     {
-        public void PathAndQueryReturnsCorrectResultWithQueryString(SliceFixture fixture)
+        [Fact]
+        public void PathAndQueryReturnsCorrectResultWithQueryString()
         {
             // Arrange
             var path = "/Some/Path/";
@@ -24,7 +26,8 @@
             pathAndQuery.ShouldBe($"{path}{query}");
         }
 
-        public void PathAndQueryReturnsCorrectResultWithoutQueryString(SliceFixture fixture)
+        [Fact]
+        public void PathAndQueryReturnsCorrectResultWithoutQueryString()
         {
             // Arrange
             var path = "/Some/Path/";

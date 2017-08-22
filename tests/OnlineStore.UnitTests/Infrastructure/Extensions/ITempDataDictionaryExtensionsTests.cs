@@ -1,13 +1,15 @@
-﻿namespace OnlineStore.IntegrationTests.Infrastructure.Extensions
+﻿namespace OnlineStore.UnitTests.Infrastructure.Extensions
 {
     using FakeItEasy;
-    using OnlineStore.Infrastructure.Extensions;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
+    using OnlineStore.Infrastructure.Extensions;
     using Shouldly;
+    using Xunit;
 
     public class ITempDataDictionaryExtensionsTests
     {
-        public void CanGetSuccessMessage(SliceFixture fixture)
+        [Fact]
+        public void CanGetSuccessMessage()
         {
             // Arrange
             var expectedMessage = "Success message!";
@@ -21,7 +23,8 @@
             result.ShouldBe(expectedMessage);
         }
 
-        public void CanSetSuccessMessage(SliceFixture fixture)
+        [Fact]
+        public void CanSetSuccessMessage()
         {
             // Arrange
             var expectedMessage = "Success message!";

@@ -1,6 +1,8 @@
 .vs/*
 tests/OnlineStore.IntegrationTests/bin
 tests/OnlineStore.IntegrationTests/obj
+tests/OnlineStore.UnitTests/bin
+tests/OnlineStore.UnitTests/obj
 src/OnlineStore/bin
 src/OnlineStore/obj
 src/OnlineStore/wwwroot/lib

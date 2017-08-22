@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.IntegrationTests.Infrastructure
+﻿namespace OnlineStore.UnitTests.Infrastructure
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
@@ -8,14 +8,16 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using Xunit;
 
     public class ValidatorActionFilterTests
     {
-        public void ReturnsBadRequestOnInvalidModelStateWithGetRequest(SliceFixture fixture)
+        [Fact]
+        public void ReturnsBadRequestOnInvalidModelStateWithGetRequest()
         {
             // Arrange
             var filter = new ValidatorActionFilter();
-            var filterContext = fixture.GetActionExecutingContext("GET");
+            var filterContext = ActionExecutingContextProvider.GetActionExecutingContext("GET");
 
             filterContext.ModelState.AddModelError("Error", "An error has occured!");
 
@@ -26,11 +28,12 @@
             filterContext.Result.ShouldBeOfType<BadRequestResult>();
         }
 
-        public void ReturnsBadRequestOnInvalidModelStateWithOtherThanGetRequest(SliceFixture fixture)
+        [Fact]
+        public void ReturnsBadRequestOnInvalidModelStateWithOtherThanGetRequest()
         {
             // Arrange
             var filter = new ValidatorActionFilter();
-            var filterContext = fixture.GetActionExecutingContext("POST");
+            var filterContext = ActionExecutingContextProvider.GetActionExecutingContext("POST");
 
             filterContext.ModelState.AddModelError("Error", "An error has occured!");
 
@@ -41,11 +44,12 @@
             filterContext.HttpContext.Response.StatusCode.ShouldBe((int)HttpStatusCode.BadRequest);
         }
 
-        public void ResultContainsErrorMessagesInModelState(SliceFixture fixture)
+        [Fact]
+        public void ResultContainsErrorMessagesInModelState()
         {
             // Arrange
             var filter = new ValidatorActionFilter();
-            var filterContext = fixture.GetActionExecutingContext("POST");
+            var filterContext = ActionExecutingContextProvider.GetActionExecutingContext("POST");
             Dictionary<string, CustomModelStateEntry> errorsToExpect = ArrangeExpectedErrors(filterContext);
 
             // Act
@@ -58,7 +62,7 @@
             contentResult.ContentType.ShouldBe("application/json");
             AssertThatReturnedErrorsMatchExpected(errorsToExpect, contentResult);
         }
-
+        
         private static void AssertThatReturnedErrorsMatchExpected(Dictionary<string, CustomModelStateEntry> errorsToExpect, ContentResult contentResult)
         {
             var returnedErrors = JsonConvert.DeserializeObject<Dictionary<string, CustomModelStateEntry>>(contentResult.Content,

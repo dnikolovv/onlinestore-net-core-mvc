@@ -6,6 +6,7 @@
     <AssemblyName>OnlineStore</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>OnlineStore</PackageId>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

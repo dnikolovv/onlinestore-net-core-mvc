@@ -1,12 +1,14 @@
-﻿namespace OnlineStore.IntegrationTests.Infrastructure.Util
+﻿namespace OnlineStore.UnitTests.Infrastructure.Util
 {
     using OnlineStore.Infrastructure.Util;
     using Shouldly;
     using System.Linq;
+    using Xunit;
 
     public class ArrayHelperTests
     {
-        public void ConcatenatingOneArrayReturnsArray(SliceFixture fixture)
+        [Fact]
+        public void ConcatenatingOneArrayReturnsArray()
         {
             int[] array = new[] { 1, 2, 34, 5152, 34, 214, 151, 1 };
 
@@ -15,7 +17,8 @@
             concatenated.SequenceEqual(array).ShouldBeTrue();
         }
 
-        public void ConcatenatesTwoArrays(SliceFixture fixture)
+        [Fact]
+        public void ConcatenatesTwoArrays()
         {
             int[] firstArray = new[] { 1, 2, 3, 4, 5, 6, 7 };
             int[] secondArray = new[] { 8, 9, 0, 124, 5 };
@@ -37,7 +40,8 @@
             }
         }
 
-        public void ConcatenatesTenArrays(SliceFixture fixture)
+        [Fact]
+        public void ConcatenatesTenArrays()
         {
             int[][] arrays = new[]
             {

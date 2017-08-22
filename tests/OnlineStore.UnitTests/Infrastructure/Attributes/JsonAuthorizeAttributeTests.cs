@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.IntegrationTests.Infrastructure.Attributes
+﻿namespace OnlineStore.UnitTests.Infrastructure.Attributes
 {
     using FakeItEasy;
     using Microsoft.AspNetCore.Mvc;
@@ -7,15 +7,17 @@
     using OnlineStore.Infrastructure.Attributes;
     using Shouldly;
     using System.Security.Claims;
+    using Xunit;
 
     public class JsonAuthorizeAttributeTests
     {
-        public void RedirectsIfUnauthorized(SliceFixture fixture)
+        [Fact]
+        public void RedirectsIfUnauthorized()
         {
             // Arrange
             var attribute = new JsonAuthorizeAttribute();
 
-            var filterContext = fixture.GetActionExecutingContext("GET");
+            var filterContext = ActionExecutingContextProvider.GetActionExecutingContext("GET");
 
             var urlHelper = A.Fake<IUrlHelper>();
             

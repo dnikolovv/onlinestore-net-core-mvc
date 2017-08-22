@@ -252,7 +252,7 @@
             var permission = new Permission
             {
                 Action = "SomeAction",
-                Controller = "DontCare"
+                Controller = "SomeController"
             };
 
             await fixture.InsertAsync(permission);

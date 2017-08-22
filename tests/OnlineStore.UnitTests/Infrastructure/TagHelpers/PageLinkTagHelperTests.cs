@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.IntegrationTests.Infrastructure.TagHelpers
+﻿namespace OnlineStore.UnitTests.Infrastructure.TagHelpers
 {
     using FakeItEasy;
     using Microsoft.AspNetCore.Mvc;
@@ -9,10 +9,12 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Xunit;
 
     public class PageLinkTagHelperTests
     {
-        public void CorrectlyRendersAnchorTags(SliceFixture fixture)
+        [Fact]
+        public void CorrectlyRendersAnchorTags()
         {
             // Arrange
             var tagHelper = GetTagHelper(1, 10, 30);
@@ -27,7 +29,8 @@
             output.Content.GetContent().ShouldBe(expectedContent);
         }
 
-        public void CorrectlyAppliesHrefTags(SliceFixture fixture)
+        [Fact]
+        public void CorrectlyAppliesHrefTags()
         {
             // Arrange
             var href = "/TestController/TestAction";
@@ -46,8 +49,9 @@
             var expectedContent = $"<a href=\"{href}\">1</a>";
             output.Content.GetContent().ShouldBe(expectedContent);
         }
-        
-        public void CorrectlyAppliesStyling(SliceFixture fixture)
+
+        [Fact]
+        public void CorrectlyAppliesStyling()
         {
             // Arrange
             var tagHelper = GetTagHelper(1, 10, 30);

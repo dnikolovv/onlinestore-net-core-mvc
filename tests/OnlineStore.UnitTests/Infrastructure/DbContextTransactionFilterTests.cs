@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.IntegrationTests.Infrastructure
+﻿namespace OnlineStore.UnitTests.Infrastructure
 {
     using FakeItEasy;
     using Microsoft.AspNetCore.Mvc.Filters;
@@ -6,10 +6,12 @@
     using OnlineStore.Infrastructure;
     using System;
     using System.Threading.Tasks;
+    using Xunit;
 
     public class DbContextTransactionFilterTests
     {
-        public async Task CommitsTransaction(SliceFixture fixture)
+        [Fact]
+        public async Task CommitsTransaction()
         {
             // Arrange
             var db = A.Fake<ApplicationDbContext>();
@@ -19,7 +21,7 @@
 
             var filter = new DbContextTransactionFilter(db);
 
-            var filterContext = fixture.GetActionExecutingContext("POST");
+            var filterContext = ActionExecutingContextProvider.GetActionExecutingContext("POST");
 
             var actionExecutionDelegate = A.Fake<ActionExecutionDelegate>();
 
@@ -33,7 +35,8 @@
             A.CallTo(() => db.CommitTransactionAsync()).MustHaveHappened();
         }
 
-        public async Task RollbacksTransactionOnError(SliceFixture fixture)
+        [Fact]
+        public async Task RollbacksTransactionOnError()
         {
             // Arrange
             var db = A.Fake<ApplicationDbContext>();
@@ -42,7 +45,7 @@
 
             var filter = new DbContextTransactionFilter(db);
 
-            var filterContext = fixture.GetActionExecutingContext("POST");
+            var filterContext = ActionExecutingContextProvider.GetActionExecutingContext("POST");
             var actionExecutionDelegate = A.Fake<ActionExecutionDelegate>();
 
             A.CallTo(() => actionExecutionDelegate.Invoke()).Throws<InvalidOperationException>();
