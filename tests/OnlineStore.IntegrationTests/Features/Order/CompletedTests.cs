@@ -14,7 +14,6 @@
         public async Task ClearsUserCartOnCompletion(SliceFixture fixture)
         {
             // Arrange
-            // Create a user
             var registerUserCommand = new Register.Command
             {
                 FirstName = "John",
@@ -23,8 +22,7 @@
             };
 
             await fixture.SendAsync(registerUserCommand);
-
-            // Create him some product to add
+            
             var product = new Product
             {
                 Name = "Product",
@@ -45,12 +43,12 @@
             await fixture.SendAsync(addItemQuery);
 
             // Act
-            var query = new Completed.Command
+            var command = new Completed.Command
             {
                 CurrentUserName = registerUserCommand.UserName
             };
 
-            await fixture.SendAsync(query);
+            await fixture.SendAsync(command);
 
             // Assert
             var userInDb = await fixture

@@ -3,15 +3,13 @@
     using Data.Models;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
-    using Shouldly;
     using OnlineStore.Features.Product;
-    using System;
+    using Shouldly;
     using System.Linq;
     using System.Threading.Tasks;
 
     public class CreateTests
     {
-        // Intentionally not testing the cases that are handled by FluentValidation
         public async Task QueryReturnsCorrectCommand(SliceFixture fixture)
         {
             var category1 = new Category() { Name = "Category1" };

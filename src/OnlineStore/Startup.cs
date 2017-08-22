@@ -55,7 +55,7 @@
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddIdentity<User, UserRole>(options =>
-                { // It's a dummy app so I don't need these
+                {
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = false;
                     options.Password.RequireNonAlphanumeric = false;
