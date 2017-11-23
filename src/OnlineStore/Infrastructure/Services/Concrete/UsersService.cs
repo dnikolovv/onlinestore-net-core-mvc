@@ -100,11 +100,11 @@
 
             if (newRoles != null)
             {
-                foreach (var role in newRoles)
+                foreach (var roleName in newRoles)
                 {
-                    if (await roleManager.RoleExistsAsync(role))
+                    if (await roleManager.RoleExistsAsync(roleName))
                     {
-                        await userManager.AddToRoleAsync(user, role);
+                        await userManager.AddToRoleAsync(user, roleName);
                     }
                 } 
             }

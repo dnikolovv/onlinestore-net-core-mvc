@@ -26,7 +26,8 @@
 
             var role = new UserRole
             {
-                Name = "Role1"
+                Name = "Role1",
+                NormalizedName = "ROLE1"
             };
 
             await fixture.InsertAsync(role);
@@ -36,8 +37,6 @@
                 .Users
                 .Include(u => u.Roles)
                 .FirstOrDefaultAsync(u => u.UserName == registerUserCommand.UserName));
-
-            registeredUser.Roles.Count.ShouldBe(0);
 
             var editCommand = new Edit.Command
             {

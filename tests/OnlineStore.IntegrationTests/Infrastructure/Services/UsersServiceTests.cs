@@ -1,5 +1,6 @@
 ﻿namespace OnlineStore.IntegrationTests.Infrastructure.Services
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using FakeItEasy;
@@ -25,7 +26,7 @@
                 {
                     // Arrange
                     var userManager = GetFakeUserManager(sp);
-                    var usersService = new UsersService(userManager, GetFakeSignInManager(userManager), db);
+                    var usersService = new UsersService(userManager, GetFakeSignInManager(userManager), GetFakeRoleManager(sp), db);
 
                     // Act
                     var result = await usersService.LoginAsync("unexisting", "user");
@@ -63,7 +64,7 @@
                     A.CallTo(() => signInManager.PasswordSignInAsync(user, registerUserCommand.Password, false, false))
                         .Returns(SignInResult.Success);
 
-                    var usersService = new UsersService(userManager, signInManager, db);
+                    var usersService = new UsersService(userManager, signInManager, GetFakeRoleManager(sp), db);
 
                     // Act
                     var result = await usersService.LoginAsync(registerUserCommand.UserName, registerUserCommand.Password);
@@ -84,7 +85,7 @@
                     var userManager = GetFakeUserManager(sp);
                     var signInManager = GetFakeSignInManager(userManager);
 
-                    var usersService = new UsersService(userManager, signInManager, db);
+                    var usersService = new UsersService(userManager, signInManager, GetFakeRoleManager(sp), db);
 
                     // Act
                     await usersService.LogoutAsync();
@@ -117,7 +118,7 @@
                         .FirstOrDefaultAsync(u => u.UserName == registerUserCommand.UserName);
 
                     var userManager = (UserManager<User>)sp.GetService(typeof(UserManager<User>));
-                    var usersService = new UsersService(userManager, GetFakeSignInManager(userManager), db);
+                    var usersService = new UsersService(userManager, GetFakeSignInManager(userManager), GetFakeRoleManager(sp), db);
 
                     // Act
                     var actualUser = await usersService.FindByUserNameAsync(registerUserCommand.UserName);
@@ -154,7 +155,7 @@
                     await AssignRoleToUserAsync(fixture, role, user);
 
                     var userManager = (UserManager<User>)sp.GetService(typeof(UserManager<User>));
-                    var usersService = new UsersService(userManager, GetFakeSignInManager(userManager), db);
+                    var usersService = new UsersService(userManager, GetFakeSignInManager(userManager), GetFakeRoleManager(sp), db);
 
                     // Act
                     var roles = await usersService.GetRolesAsync(user.Id);
@@ -188,7 +189,7 @@
                         .FirstOrDefaultAsync(u => u.UserName == registerUserCommand.UserName);
 
                     var userManager = (UserManager<User>)sp.GetService(typeof(UserManager<User>));
-                    var usersService = new UsersService(userManager, GetFakeSignInManager(userManager), db);
+                    var usersService = new UsersService(userManager, GetFakeSignInManager(userManager), GetFakeRoleManager(sp), db);
 
                     // Act
                     user.UserName = "updated";
@@ -211,7 +212,7 @@
                 {
                     // Arrange
                     var userManager = (UserManager<User>)sp.GetService(typeof(UserManager<User>));
-                    var usersService = new UsersService(userManager, GetFakeSignInManager(userManager), db);
+                    var usersService = new UsersService(userManager, GetFakeSignInManager(userManager), GetFakeRoleManager(sp), db);
 
                     var userToRegister = new User
                     {
@@ -240,7 +241,7 @@
             var assignRoleToUserCommand = new OnlineStore.Features.Users.Edit.Command
             {
                 Id = user.Id,
-                SelectedRoles = new[] { role.Id }
+                SelectedRoles = new[] { role.Name }
             };
 
             await fixture.SendAsync(assignRoleToUserCommand);
@@ -268,6 +269,18 @@
                     A.Fake<IUserClaimsPrincipalFactory<User>>(),
                     A.Fake<IOptions<IdentityOptions>>(),
                     A.Fake<ILogger<SignInManager<User>>>())));
+        }
+
+        private static RoleManager<UserRole> GetFakeRoleManager(System.IServiceProvider sp)
+        {
+            return A.Fake<RoleManager<UserRole>>(opts => opts
+                .WithArgumentsForConstructor(() => new RoleManager<UserRole>(
+                    A.Fake<IRoleStore<UserRole>>(),
+                    A.Fake<IEnumerable<IRoleValidator<UserRole>>>(),
+                    A.Fake<ILookupNormalizer>(),
+                    A.Fake<IdentityErrorDescriber>(),
+                    A.Fake<ILogger<RoleManager<UserRole>>>(),
+                    A.Fake<IHttpContextAccessor>())));
         }
 
         private static UserManager<User> GetFakeUserManager(System.IServiceProvider sp)
