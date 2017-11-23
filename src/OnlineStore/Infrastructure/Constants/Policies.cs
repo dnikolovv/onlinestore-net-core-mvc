@@ -2,14 +2,14 @@
 {
     public static class Policies
     {
-        public const string PRODUCT_MANAGER = "ProductManager";
+        public const string PRODUCTS_POLICY = "ProductsPolicy";
 
-        public const string CATEGORY_MANGER = "CategoryManager";
+        public const string CATEGORIES_POLICY = "CategoriesPolicy";
 
-        public const string ORDER_MANAGER = "OrderManager";
+        public const string ORDERS_POLICY = "OrdersPolicy";
 
-        public const string USER_MANAGER = "UserManager";
+        public const string USERS_POLICY = "UsersPolicy";
 
-        public const string ROLE_MANAGER = "RoleManager";
+        public const string ROLES_POLICY = "RolesPolicy";
     }
 }

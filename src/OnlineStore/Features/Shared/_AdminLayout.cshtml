@@ -1,9 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@inject IAuthorizationService Authorization
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <link asp-href-include="~/css/style.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
 </head>
@@ -12,26 +14,46 @@
         <a class="btn btn-sm btn-primary pull-right admin-navbar-button" href="/">
             Go back to site
         </a>
-        <a class="btn btn-sm btn-primary pull-right admin-navbar-button"
-           asp-action="Products" asp-controller="Admin">
-            Products
-        </a>
-        <a class="btn btn-sm btn-primary pull-right admin-navbar-button"
-           asp-action="Categories" asp-controller="Admin">
-            Categories
-        </a>
-        <a class="btn btn-sm btn-primary pull-right admin-navbar-button"
-           asp-action="Orders" asp-controller="Admin">
-            Orders
-        </a>
-        <a class="btn btn-sm btn-primary pull-right admin-navbar-button"
-           asp-action="Users" asp-controller="Admin">
-            Users
-        </a>
-        <a class="btn btn-sm btn-primary pull-right admin-navbar-button"
-           asp-action="Roles" asp-controller="Admin">
-            Roles
-        </a>
+        @if (await Authorization.AuthorizeAsync(User, Policies.PRODUCTS_POLICY))
+        {
+            <a class="btn btn-sm btn-primary pull-right admin-navbar-button"
+               asp-action="Products" asp-controller="Admin">
+                Products
+            </a>
+        }
+
+        @if (await Authorization.AuthorizeAsync(User, Policies.CATEGORIES_POLICY))
+        {
+            <a class="btn btn-sm btn-primary pull-right admin-navbar-button"
+               asp-action="Categories" asp-controller="Admin">
+                Categories
+            </a>
+        }
+
+        @if (await Authorization.AuthorizeAsync(User, Policies.ORDERS_POLICY))
+        {
+            <a class="btn btn-sm btn-primary pull-right admin-navbar-button"
+               asp-action="Orders" asp-controller="Admin">
+                Orders
+            </a>
+        }
+
+        @if (await Authorization.AuthorizeAsync(User, Policies.USERS_POLICY))
+        {
+            <a class="btn btn-sm btn-primary pull-right admin-navbar-button"
+               asp-action="Users" asp-controller="Admin">
+                Users
+            </a>
+        }
+
+        @if (await Authorization.AuthorizeAsync(User, Policies.ROLES_POLICY))
+        {
+            <a class="btn btn-sm btn-primary pull-right admin-navbar-button"
+               asp-action="Roles" asp-controller="Admin">
+                Roles
+            </a>
+        }
+
         <a class="btn btn-sm btn-primary pull-right admin-navbar-button"
            asp-action="Logout" asp-controller="Account">
             Log Out

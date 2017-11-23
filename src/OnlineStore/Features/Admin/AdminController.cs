@@ -15,35 +15,35 @@
 
         private readonly IMediator mediator;
 
-        [Authorize(Policy = Policies.PRODUCT_MANAGER)]
+        [Authorize(Policy = Policies.PRODUCTS_POLICY)]
         public async Task<ViewResult> Products(Products.Query query)
         {
             var model = await this.mediator.SendAsync(query);
             return View(model);
         }
 
-        [Authorize(Policy = Policies.ORDER_MANAGER)]
+        [Authorize(Policy = Policies.ORDERS_POLICY)]
         public async Task<ViewResult> Orders(Orders.Query query)
         {
             var model = await this.mediator.SendAsync(query);
             return View(model);
         }
 
-        [Authorize(Policy = Policies.CATEGORY_MANGER)]
+        [Authorize(Policy = Policies.CATEGORIES_POLICY)]
         public async Task<ViewResult> Categories(Categories.Query query)
         {
             var model = await this.mediator.SendAsync(query);
             return View(model);
         }
 
-        [Authorize(Policy = Policies.USER_MANAGER)]
+        [Authorize(Policy = Policies.USERS_POLICY)]
         public async Task<ViewResult> Users(Users.Query query)
         {
             var model = await this.mediator.SendAsync(query);
             return View(model);
         }
 
-        [Authorize(Policy = Policies.ROLE_MANAGER)]
+        [Authorize(Policy = Policies.ROLES_POLICY)]
         public async Task<ViewResult> Roles(Roles.Query query)
         {
             var model = await this.mediator.SendAsync(query);

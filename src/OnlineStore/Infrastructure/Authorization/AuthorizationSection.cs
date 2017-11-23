@@ -8,12 +8,14 @@
             string policyName,
             string claimName,
             string friendlyName,
+            bool requiresAdminPermissions,
             IAuthorizationRequirement requirement,
             IAuthorizationHandler handler)
         {
             this.PolicyName = policyName;
             this.ClaimType = claimName;
             this.FriendlyName = friendlyName;
+            this.RequiresAdminPermissions = requiresAdminPermissions;
             this.Requirement = requirement;
             this.Handler = handler;
         }
@@ -23,6 +25,8 @@
         public string ClaimType { get; set; }
 
         public string FriendlyName { get; set; }
+
+        public bool RequiresAdminPermissions { get; set; }
 
         public IAuthorizationRequirement Requirement { get; }
 

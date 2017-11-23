@@ -16,7 +16,7 @@
 
         private readonly IMediator mediator;
 
-        [Authorize(Policy = Policies.ORDER_MANAGER)]
+        [Authorize(Policy = Policies.ORDERS_POLICY)]
         [HttpPost]
         public async Task<IActionResult> MarkShipped(MarkShipped.Command command)
         {

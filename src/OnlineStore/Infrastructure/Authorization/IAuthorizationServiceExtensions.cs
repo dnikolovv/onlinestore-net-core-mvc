@@ -1,5 +1,6 @@
 ﻿namespace OnlineStore.Infrastructure.Authorization
 {
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
@@ -12,7 +13,7 @@
 
             if (!isAdmin)
             {
-                foreach (var section in AuthorizationSectionsContainer.Sections)
+                foreach (var section in AuthorizationSectionsContainer.Sections.Where(s => s.RequiresAdminPermissions))
                 {
                     return await authorization.AuthorizeAsync(user, section.PolicyName);
                 }

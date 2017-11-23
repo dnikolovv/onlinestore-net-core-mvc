@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
     using OnlineStore.Infrastructure.Extensions;
 
-    [Authorize(Policy = Policies.USER_MANAGER)]
+    [Authorize(Policy = Policies.USERS_POLICY)]
     public class UserController : Controller
     {
         public UserController(IMediator mediator)

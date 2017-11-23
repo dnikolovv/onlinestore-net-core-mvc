@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
     using OnlineStore.Infrastructure.Extensions;
 
-    [Authorize(Policy = Policies.ROLE_MANAGER)]
+    [Authorize(Policy = Policies.ROLES_POLICY)]
     public class RoleController : Controller
     {
         public RoleController(IMediator mediator)

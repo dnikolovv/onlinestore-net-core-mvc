@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
     using OnlineStore.Infrastructure.Extensions;
 
-    [Authorize(Policy = Policies.CATEGORY_MANGER)]
+    [Authorize(Policy = Policies.CATEGORIES_POLICY)]
     public class CategoryController : Controller
     {
         public CategoryController(IMediator mediator)

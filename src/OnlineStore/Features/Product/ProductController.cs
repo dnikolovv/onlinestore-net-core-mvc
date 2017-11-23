@@ -8,7 +8,7 @@
     using Microsoft.AspNetCore.Mvc;
     using OnlineStore.Infrastructure.Extensions;
 
-    [Authorize(Policy = Policies.PRODUCT_MANAGER)]
+    [Authorize(Policy = Policies.PRODUCTS_POLICY)]
     public class ProductController : Controller
     {
         public ProductController(IMediator mediator)

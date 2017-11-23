@@ -75,33 +75,38 @@
             services.AddDynamicAuthorization(new[]
             {
                 new AuthorizationSection(
-                    Policies.PRODUCT_MANAGER,
+                    Policies.PRODUCTS_POLICY,
                     Claims.PRODUCT_MANAGER,
                     "Product Manager",
+                    true,
                     new HasClaimOrIsAdminRequirement(Claims.PRODUCT_MANAGER),
                     new HasClaimOrIsAdminHandler()),
                 new AuthorizationSection(
-                    Policies.CATEGORY_MANGER,
+                    Policies.CATEGORIES_POLICY,
                     Claims.CATEGORY_MANGER,
                     "Category Manager",
+                    true,
                     new HasClaimOrIsAdminRequirement(Claims.CATEGORY_MANGER),
                     new HasClaimOrIsAdminHandler()),
                 new AuthorizationSection(
-                    Policies.ORDER_MANAGER,
+                    Policies.ORDERS_POLICY,
                     Claims.ORDER_MANAGER,
                     "Order Manager",
+                    true,
                     new HasClaimOrIsAdminRequirement(Claims.ORDER_MANAGER),
                     new HasClaimOrIsAdminHandler()),
                 new AuthorizationSection(
-                    Policies.USER_MANAGER,
+                    Policies.USERS_POLICY,
                     Claims.USER_MANAGER,
                     "User Manager",
+                    true,
                     new HasClaimOrIsAdminRequirement(Claims.USER_MANAGER),
                     new HasClaimOrIsAdminHandler()),
                 new AuthorizationSection(
-                    Policies.ROLE_MANAGER,
+                    Policies.ROLES_POLICY,
                     Claims.ROLE_MANAGER,
                     "Role Manager",
+                    true,
                     new HasClaimOrIsAdminRequirement(Claims.ROLE_MANAGER),
                     new HasClaimOrIsAdminHandler())
             });

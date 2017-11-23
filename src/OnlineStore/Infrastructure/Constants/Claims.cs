@@ -1,6 +1,6 @@
 ﻿namespace OnlineStore.Infrastructure.Constants
 {
-    public class Claims
+    public static class Claims
     {
         public const string PRODUCT_MANAGER = "ProductManager";
 
