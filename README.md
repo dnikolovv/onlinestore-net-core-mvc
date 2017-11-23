@@ -1,6 +1,3 @@
-> **Note:**
->The way dynamic authorization is implemented in this project (see the DynamicallyAuthorize class in Infrastructure/Attributes) is certainly not the best way to do dynamic authorization in .NET Core.
-
 # To run the web app :
 
 1. Restore bower packages.

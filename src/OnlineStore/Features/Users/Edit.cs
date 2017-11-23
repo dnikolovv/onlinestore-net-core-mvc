@@ -1,5 +1,7 @@
 ﻿namespace OnlineStore.Features.Users
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Data;
@@ -7,11 +9,8 @@
     using Infrastructure.Services.Contracts;
     using Infrastructure.ViewModels.Users;
     using MediatR;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    using OnlineStore.Infrastructure.ViewModels.Roles;
 
     public class Edit
     {
@@ -47,7 +46,7 @@
 
                 var userViewModel = Mapper.Map<UserViewModel>(user);
                 userViewModel.Roles = Mapper.Map<ICollection<RoleViewModel>>
-                    (await this.usersService.GetRolesAsync(user.Id.ToString()));
+                    (await this.usersService.GetRolesAsync(user.Id));
 
                 var availableRoles = await this.db.Roles
                     .ProjectTo<RoleViewModel>()
@@ -67,7 +66,7 @@
 
             public string UserName { get; set; }
 
-            public ICollection<int> SelectedRoles { get; set; }
+            public ICollection<string> SelectedRoles { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -97,31 +96,7 @@
 
                 if (userInDb != null)
                 {
-                    if (message.SelectedRoles != null && message.SelectedRoles.Count > 0)
-                    {
-                        foreach (var role in message.SelectedRoles)
-                        {
-                            var roleInDb = await this.db.Roles
-                                .Include(r => r.Users)
-                                .FirstOrDefaultAsync(r => r.Id == role);
-
-                            if (roleInDb != null)
-                            {
-                                var relationshipToAdd = new IdentityUserRole<int>() { RoleId = roleInDb.Id, UserId = userInDb.Id };
-
-                                if (roleInDb.Users.FirstOrDefault(r => r.RoleId == relationshipToAdd.RoleId && r.UserId == relationshipToAdd.UserId) == null)
-                                {
-                                    this.db.UserRoles.Add(relationshipToAdd);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        userInDb.Roles.Clear();
-                    }
-
-                    await this.usersService.UpdateAsync(userInDb);
+                    await this.usersService.UpdateAsync(userInDb, message.SelectedRoles);
                 }
             }
         }

@@ -8,5 +8,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>OnlineStore</ActiveDebugProfile>
+    <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
 </Project>

@@ -1,8 +1,10 @@
 ﻿namespace OnlineStore.IntegrationTests
 {
+    using System;
+    using System.IO;
+    using System.Threading.Tasks;
     using Data;
     using Data.Models;
-    using Extensions;
     using FakeItEasy;
     using MediatR;
     using Microsoft.AspNetCore.Hosting;
@@ -11,10 +13,8 @@
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using OnlineStore.Infrastructure.Extensions;
     using Respawn;
-    using System;
-    using System.IO;
-    using System.Threading.Tasks;
 
     public class SliceFixture
     {

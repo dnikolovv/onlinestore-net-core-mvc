@@ -1,13 +1,14 @@
 ﻿namespace OnlineStore.Features.Product
 {
+    using System.Threading.Tasks;
     using Features;
-    using Infrastructure.Attributes;
     using Infrastructure.Constants;
     using MediatR;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using OnlineStore.Infrastructure.Extensions;
-    using System.Threading.Tasks;
 
+    [Authorize(Policy = Policies.PRODUCT_MANAGER)]
     public class ProductController : Controller
     {
         public ProductController(IMediator mediator)
@@ -17,25 +18,27 @@
         
         private readonly IMediator mediator;
         
+        [AllowAnonymous]
         public async Task<ViewResult> Details(Details.Query query)
         {
             var model = await this.mediator.SendAsync(query);
             return View(model);
         }
 
+        [AllowAnonymous]
         public async Task<ViewResult> ListLatest(ListLatest.Query query)
         {
             var model = await this.mediator.SendAsync(query);
             return View(model);
         }
 
+        [AllowAnonymous]
         public async Task<ViewResult> List(List.Query query)
         {
             var model = await this.mediator.SendAsync(query);
             return View(model);
         }
 
-        [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
         [HttpGet]
         public async Task<IActionResult> Edit(Edit.Query query)
         {
@@ -43,7 +46,6 @@
             return View(model);
         }
 
-        [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Edit.Command command)
@@ -52,8 +54,7 @@
             TempData.SetSuccessMessage(SuccessMessages.SuccessfullyEditedProduct(command.Name));
             return this.RedirectToActionJson("Products", "Admin");
         }
-
-        [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
+        
         [HttpGet]
         public async Task<ViewResult> Create(Create.Query query)
         {
@@ -61,7 +62,6 @@
             return View(model);
         }
 
-        [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Create.Command command)
@@ -71,7 +71,6 @@
             return this.RedirectToActionJson("Products", "Admin");
         }
 
-        [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Remove(Remove.Command command)

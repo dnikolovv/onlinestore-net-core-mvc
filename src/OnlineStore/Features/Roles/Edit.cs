@@ -1,17 +1,18 @@
 ﻿namespace OnlineStore.Features.Roles
 {
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
-    using Data;
-    using Data.Models;
-    using FluentValidation;
-    using Infrastructure.ViewModels.Permissions;
-    using MediatR;
-    using Microsoft.EntityFrameworkCore;
-    using OnlineStore.Infrastructure.ViewModels.Roles;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
+    using AutoMapper;
+    using Data;
+    using FluentValidation;
+    using MediatR;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+    using OnlineStore.Data.Models;
+    using OnlineStore.Infrastructure.ViewModels.Roles;
 
     public class Edit
     {
@@ -41,20 +42,10 @@
             {
 
                 var roleInDb = await this.db.Roles
-                    .Include(r => r.PermissionsRoles)
+                    .Include(r => r.Claims)
                     .FirstOrDefaultAsync(r => r.Id == message.RoleId);
 
-                var availablePermissions = await this.db.Permissions
-                    .ProjectTo<PermissionViewModel>()
-                    .ToListAsync();
-
-                return new RoleEditViewModel
-                {
-                    Id = roleInDb.Id,
-                    Name = roleInDb.Name,
-                    AvailablePermissions = availablePermissions,
-                    SelectedPermissions = roleInDb.PermissionsRoles.Select(p => p.PermissionId).ToList()
-                };
+                return Mapper.Map<RoleEditViewModel>(roleInDb);
             }
         }
 
@@ -63,11 +54,8 @@
             public int? Id { get; set; }
 
             public string Name { get; set; }
-
-            /// <summary>
-            /// Holds permission id's
-            /// </summary>
-            public ICollection<int> SelectedPermissions { get; set; }
+            
+            public ICollection<string> SelectedClaims { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -81,49 +69,76 @@
 
         public class CommandHandler : AsyncRequestHandler<Command>
         {
-            public CommandHandler(ApplicationDbContext db)
+            public CommandHandler(ApplicationDbContext db, RoleManager<UserRole> roleManager)
             {
                 this.db = db;
+                this.roleManager = roleManager;
             }
 
             private readonly ApplicationDbContext db;
+            private readonly RoleManager<UserRole> roleManager;
+            private readonly ClaimsIdentity test;
 
             protected override async Task HandleCore(Command message)
             {
                 var roleInDb = await this.db.Roles
-                    .Include(r => r.PermissionsRoles)
                     .FirstOrDefaultAsync(r => r.Id == message.Id);
 
+                await UpdateClaims(roleInDb, message.SelectedClaims);
+
                 Mapper.Map(message, roleInDb);
-                await UpdatePermissions(roleInDb, message.SelectedPermissions);
             }
 
-            // TODO: This is a duplicate of the one found in Create
-            private async Task UpdatePermissions(UserRole role, ICollection<int> permissionIds)
+            private async Task UpdateClaims(UserRole role, IEnumerable<string> selectedClaims)
             {
-                if (permissionIds != null && permissionIds.Count > 0)
+                foreach (var claim in await this.roleManager.GetClaimsAsync(role))
                 {
-                    foreach (var permissionId in permissionIds)
+                    await this.roleManager.RemoveClaimAsync(role, claim);
+                }
+
+                if (selectedClaims != null)
+                {
+                    foreach (var claimType in selectedClaims)
                     {
-                        var permissionInDb = await this.db.Permissions
-                            .FirstOrDefaultAsync(p => p.Id == permissionId);
+                        var existingClaim = this.db
+                            .RoleClaims
+                            .FirstOrDefault(rc => rc.RoleId == role.Id && rc.ClaimType == claimType)?
+                            .ToClaim();
 
-                        if (permissionInDb != null)
+                        if (existingClaim != null)
                         {
-                            bool relationshipAlreadyExists = role.PermissionsRoles?
-                                .FirstOrDefault(pr => pr.PermissionId == permissionInDb.Id && pr.RoleId == role.Id) != null;
-
-                            if (!relationshipAlreadyExists)
-                            {
-                                PermissionRole relationship = new PermissionRole { RoleId = role.Id, PermissionId = permissionInDb.Id };
-                                this.db.PermissionsRoles.Add(relationship);
-                            }
+                            await this.roleManager.AddClaimAsync(role, existingClaim);
                         }
-                    }
+                        else
+                        {
+                            await this.roleManager.AddClaimAsync(role, new Claim(claimType, claimType));
+                        }
+                    } 
+                }
+
+                await this.roleManager.UpdateAsync(role);
+            }
+
+            private void AddOrUpdateClaim(UserRole role, string claimType)
+            {
+                var claimInDb = this.db
+                    .RoleClaims
+                    .FirstOrDefault(rc => rc.ClaimType == claimType);
+
+                if (claimInDb == null)
+                {
+                    var claimToAdd = new IdentityRoleClaim<int>()
+                    {
+                        ClaimType = claimType,
+                        RoleId = role.Id,
+                        ClaimValue = claimType
+                    };
+
+                    this.db.RoleClaims.Add(claimToAdd);
                 }
                 else
                 {
-                    role.PermissionsRoles?.Clear();
+                    role.Claims.Add(claimInDb);
                 }
             }
         }

@@ -1,12 +1,14 @@
 ﻿namespace OnlineStore.Data.Initializer
 {
+    using System.Linq;
     using Infrastructure.Constants;
     using Infrastructure.Util;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Models;
-    using System.Linq;
 
     public class DbInitializer
     {
@@ -221,7 +223,7 @@
 
                 RoleManager<UserRole> roleManager = app.ApplicationServices
                     .GetRequiredService<RoleManager<UserRole>>();
-
+                
                 user = new User() { UserName = ADMIN_DEFAULT_USERNAME, FirstName = "JohnTheAdmin", Cart = new Cart() };
                 await userManager.CreateAsync(user, ADMIN_DEFAULT_PASSWORD);
 

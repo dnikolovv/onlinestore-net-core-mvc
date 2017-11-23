@@ -1,12 +1,12 @@
 ﻿namespace OnlineStore.Features.Admin
 {
-    using AutoMapper.QueryableExtensions;
-    using Data;
-    using Infrastructure.ViewModels.Users;
-    using MediatR;
-    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using AutoMapper.QueryableExtensions;
+    using Data;
+    using MediatR;
+    using Microsoft.EntityFrameworkCore;
+    using OnlineStore.Infrastructure.ViewModels.Roles;
 
     public class Roles
     {

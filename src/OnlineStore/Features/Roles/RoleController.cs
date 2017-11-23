@@ -1,13 +1,13 @@
 ﻿namespace OnlineStore.Features.Roles
 {
-    using Infrastructure.Attributes;
+    using System.Threading.Tasks;
     using Infrastructure.Constants;
     using MediatR;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using OnlineStore.Infrastructure.Extensions;
-    using System.Threading.Tasks;
 
-    [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
+    [Authorize(Policy = Policies.ROLE_MANAGER)]
     public class RoleController : Controller
     {
         public RoleController(IMediator mediator)
@@ -18,17 +18,17 @@
         private readonly IMediator mediator;
 
         [HttpGet]
-        public async Task<ViewResult> Create(Create.Query query)
+        public IActionResult Create(Create.Query query)
         {
-            var model = await this.mediator.SendAsync(query);
+            var model = this.mediator.Send(query);
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Create.Command command)
+        public IActionResult Create(Create.Command command)
         {
-            await this.mediator.SendAsync(command);
+            this.mediator.Send(command);
             TempData.SetSuccessMessage(SuccessMessages.SuccessfullyCreatedRole(command.Name));
             return this.RedirectToActionJson("Roles", "Admin");
         }

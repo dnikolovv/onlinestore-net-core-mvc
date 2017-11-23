@@ -1,20 +1,15 @@
 ﻿namespace OnlineStore.Data
 {
+    using System;
+    using System.Data;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Storage;
     using Models;
-    using System;
-    using System.Data;
-    using System.Threading.Tasks;
 
     public class ApplicationDbContext : IdentityDbContext<User, UserRole, int>
     {
-        public ApplicationDbContext()
-        {
-
-        }
-
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -32,16 +27,6 @@
         public DbSet<CartItem> CartItems { get; set; }
 
         public DbSet<Cart> Carts { get; set; }
-
-        public DbSet<Permission> Permissions { get; set; }
-
-        public DbSet<PermissionRole> PermissionsRoles { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<PermissionRole>().HasKey(pr => new { pr.RoleId, pr.PermissionId });
-            base.OnModelCreating(modelBuilder);
-        }
 
         public virtual void BeginTransaction()
         {

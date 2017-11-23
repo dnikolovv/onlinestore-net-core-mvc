@@ -1,11 +1,10 @@
 ﻿namespace OnlineStore.Features.Order
 {
-    using Infrastructure.Attributes;
-    using Infrastructure.Constants;
+    using System.Threading.Tasks;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
+    using OnlineStore.Infrastructure.Constants;
 
     [Authorize]
     public class OrderController : Controller
@@ -17,8 +16,8 @@
 
         private readonly IMediator mediator;
 
+        [Authorize(Policy = Policies.ORDER_MANAGER)]
         [HttpPost]
-        [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
         public async Task<IActionResult> MarkShipped(MarkShipped.Command command)
         {
             await this.mediator.SendAsync(command);

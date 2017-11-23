@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.IntegrationTests.Extensions
+﻿namespace OnlineStore.Infrastructure.Extensions
 {
     using Data;
     using Microsoft.EntityFrameworkCore;

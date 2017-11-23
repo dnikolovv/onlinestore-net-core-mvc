@@ -1,5 +1,7 @@
 ﻿namespace OnlineStore.IntegrationTests.Infrastructure.Services
 {
+    using System.Linq;
+    using System.Threading.Tasks;
     using FakeItEasy;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
@@ -12,9 +14,6 @@
     using OnlineStore.Features.Account;
     using OnlineStore.Infrastructure.Services.Concrete;
     using Shouldly;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class UsersServiceTests
     {
@@ -158,7 +157,7 @@
                     var usersService = new UsersService(userManager, GetFakeSignInManager(userManager), db);
 
                     // Act
-                    var roles = await usersService.GetRolesAsync(user.Id.ToString());
+                    var roles = await usersService.GetRolesAsync(user.Id);
 
                     // Assert
                     roles.Count().ShouldBe(1);
@@ -249,25 +248,14 @@
 
         private static async Task<UserRole> AddSampleRoleToDatabaseAsync(SliceFixture fixture, ApplicationDbContext db)
         {
-            var permission = new Permission
-            {
-                Action = "SomeAction",
-                Controller = "SomeController"
-            };
-
-            await fixture.InsertAsync(permission);
-
             var createCommand = new OnlineStore.Features.Roles.Create.Command
             {
-                Name = "SampleRole",
-                SelectedPermissions = new List<int> { permission.Id }
+                Name = "SampleRole"
             };
 
             await fixture.SendAsync(createCommand);
 
             return await db.Roles
-                .Include(r => r.PermissionsRoles)
-                    .ThenInclude(pr => pr.Permission)
                 .FirstOrDefaultAsync(r => r.Name == createCommand.Name);
         }
 

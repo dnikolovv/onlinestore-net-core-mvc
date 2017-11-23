@@ -1,9 +1,10 @@
 ﻿namespace OnlineStore.Infrastructure
 {
+    using System.Net;
+    using System.Net.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
     using Newtonsoft.Json;
-    using System.Net;
 
     public class ValidatorActionFilter : IActionFilter
     {
@@ -11,7 +12,7 @@
         {
             if (!filterContext.ModelState.IsValid)
             {
-                if (filterContext.HttpContext.Request.Method == "GET")
+                if (filterContext.HttpContext.Request.Method == HttpMethod.Get.Method)
                 {
                     filterContext.Result = new BadRequestResult();
                 }

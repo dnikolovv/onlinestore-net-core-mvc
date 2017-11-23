@@ -1,11 +1,11 @@
 ﻿namespace OnlineStore.Features.Admin
 {
-    using Infrastructure.Attributes;
-    using MediatR;
-    using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
+    using MediatR;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using OnlineStore.Infrastructure.Constants;
 
-    [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
     public class AdminController : Controller
     {
         public AdminController(IMediator mediator)
@@ -15,37 +15,36 @@
 
         private readonly IMediator mediator;
 
+        [Authorize(Policy = Policies.PRODUCT_MANAGER)]
         public async Task<ViewResult> Products(Products.Query query)
         {
             var model = await this.mediator.SendAsync(query);
             return View(model);
         }
 
+        [Authorize(Policy = Policies.ORDER_MANAGER)]
         public async Task<ViewResult> Orders(Orders.Query query)
         {
             var model = await this.mediator.SendAsync(query);
             return View(model);
         }
 
+        [Authorize(Policy = Policies.CATEGORY_MANGER)]
         public async Task<ViewResult> Categories(Categories.Query query)
         {
             var model = await this.mediator.SendAsync(query);
             return View(model);
         }
 
+        [Authorize(Policy = Policies.USER_MANAGER)]
         public async Task<ViewResult> Users(Users.Query query)
         {
             var model = await this.mediator.SendAsync(query);
             return View(model);
         }
-        
-        public async Task<ViewResult> Roles(Roles.Query query)
-        {
-            var model = await this.mediator.SendAsync(query);
-            return View(model);
-        }
 
-        public async Task<ViewResult> Permissions(Permissions.Query query)
+        [Authorize(Policy = Policies.ROLE_MANAGER)]
+        public async Task<ViewResult> Roles(Roles.Query query)
         {
             var model = await this.mediator.SendAsync(query);
             return View(model);

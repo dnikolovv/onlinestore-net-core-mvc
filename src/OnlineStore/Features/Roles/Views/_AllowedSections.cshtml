@@ -1,0 +1,17 @@
+﻿@model IEnumerable<AuthorizationSectionViewModel>
+
+<div class="form-group">
+
+    <hr />
+    <label>Authorized for sections</label>
+
+    <div class="form-inline">
+        @foreach (var authSection in Model)
+        {
+            @authSection.FriendlyName
+            <input name="SelectedClaims" value="@authSection.ClaimType" type="checkbox" class="checkbox"
+                   checked="@(authSection.Role.Claims.FirstOrDefault(c => c == authSection.ClaimType) != null)" />
+        }
+    </div>
+
+</div>

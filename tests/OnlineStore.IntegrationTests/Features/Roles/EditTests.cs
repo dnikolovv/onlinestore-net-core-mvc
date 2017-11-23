@@ -1,36 +1,20 @@
 ﻿namespace OnlineStore.IntegrationTests.Features.Roles
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
     using OnlineStore.Features.Roles;
     using Shouldly;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class EditTests
     {
         public async Task CanEdit(SliceFixture fixture)
         {
             // Arrange
-            var permission = new Permission
-            {
-                Action = "Action1",
-                Controller = "Controller1"
-            };
-
-            await fixture.InsertAsync(permission);
-
             var role = new UserRole
             {
-                Name = "Role1",
-                PermissionsRoles = new List<PermissionRole>
-                {
-                    new PermissionRole
-                    {
-                        PermissionId = permission.Id
-                    }
-                }
+                Name = "Role1"
             };
 
             await fixture.InsertAsync(role);
@@ -40,42 +24,25 @@
             {
                 Id = role.Id,
                 Name = role.Name + "Edited",
-                SelectedPermissions = new List<int>()
+                SelectedClaims = new List<string>()
             };
 
             await fixture.SendAsync(editCommand);
 
             // Assert
             var editedRole = await fixture.ExecuteDbContextAsync(db => db.Roles
-                .Include(r => r.PermissionsRoles)
                 .FirstOrDefaultAsync(r => r.Id == editCommand.Id));
 
             editedRole.Name.ShouldBe(editCommand.Name);
             editedRole.NormalizedName.ShouldBe(editedRole.Name.ToUpper());
-            editedRole.PermissionsRoles.Count.ShouldBe(editCommand.SelectedPermissions.Count);
         }
 
         public async Task QueryReturnsCorrectResults(SliceFixture fixture)
         {
             // Arrange
-            var permission = new Permission
-            {
-                Action = "Action1",
-                Controller = "Controller1"
-            };
-
-            await fixture.InsertAsync(permission);
-
             var role = new UserRole
             {
-                Name = "Role1",
-                PermissionsRoles = new List<PermissionRole>
-                {
-                    new PermissionRole
-                    {
-                        PermissionId = permission.Id
-                    }
-                }
+                Name = "Role1"
             };
 
             await fixture.InsertAsync(role);
@@ -91,10 +58,6 @@
             // Assert
             model.Id.ShouldBe(role.Id);
             model.Name.ShouldBe(role.Name);
-            model.SelectedPermissions.Count.ShouldBe(role.PermissionsRoles.Count);
-            model.SelectedPermissions.First().ShouldBe(permission.Id);
-            model.AvailablePermissions.Count.ShouldBe(1);
-            model.AvailablePermissions.First().Id.ShouldBe(permission.Id);
         }
     }
 }

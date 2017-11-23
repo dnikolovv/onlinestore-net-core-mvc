@@ -7,11 +7,8 @@
     using Features.Account.Util;
     using Features.Category.Util;
     using Features.Order.Util;
-    using Features.Permissions.Util;
-    using Features.Roles.Util;
     using FluentValidation.AspNetCore;
     using Infrastructure;
-    using Infrastructure.Attributes;
     using Infrastructure.Constants;
     using Infrastructure.Conventions;
     using Infrastructure.Services.Concrete;
@@ -24,6 +21,9 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using OnlineStore.Features.Roles.Util;
+    using OnlineStore.Infrastructure.Authorization;
+    using OnlineStore.Infrastructure.Authorization.Requirements;
 
     public class Startup
     {
@@ -63,16 +63,48 @@
                     options.Password.RequiredLength = 1;
                     options.User.AllowedUserNameCharacters = null;
 
-                }).AddEntityFrameworkStores<ApplicationDbContext, int>();
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext, int>();
 
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<ICategoryValidator, CategoryValidator>();
             services.AddTransient<IRolesValidator, RolesValidator>();
-            services.AddTransient<IPermissionValidator, PermissionValidator>();
             services.AddTransient<IOrderValidator, OrderValidator>();
             services.AddTransient<IUserValidator, UserValidator>();
 
-            services.AddScoped<DynamicallyAuthorizeServiceFilter>();
+            services.AddDynamicAuthorization(new[]
+            {
+                new AuthorizationSection(
+                    Policies.PRODUCT_MANAGER,
+                    Claims.PRODUCT_MANAGER,
+                    "Product Manager",
+                    new HasClaimOrIsAdminRequirement(Claims.PRODUCT_MANAGER),
+                    new HasClaimOrIsAdminHandler()),
+                new AuthorizationSection(
+                    Policies.CATEGORY_MANGER,
+                    Claims.CATEGORY_MANGER,
+                    "Category Manager",
+                    new HasClaimOrIsAdminRequirement(Claims.CATEGORY_MANGER),
+                    new HasClaimOrIsAdminHandler()),
+                new AuthorizationSection(
+                    Policies.ORDER_MANAGER,
+                    Claims.ORDER_MANAGER,
+                    "Order Manager",
+                    new HasClaimOrIsAdminRequirement(Claims.ORDER_MANAGER),
+                    new HasClaimOrIsAdminHandler()),
+                new AuthorizationSection(
+                    Policies.USER_MANAGER,
+                    Claims.USER_MANAGER,
+                    "User Manager",
+                    new HasClaimOrIsAdminRequirement(Claims.USER_MANAGER),
+                    new HasClaimOrIsAdminHandler()),
+                new AuthorizationSection(
+                    Policies.ROLE_MANAGER,
+                    Claims.ROLE_MANAGER,
+                    "Role Manager",
+                    new HasClaimOrIsAdminRequirement(Claims.ROLE_MANAGER),
+                    new HasClaimOrIsAdminHandler())
+            });
 
             services.AddMvc(opt =>
             {

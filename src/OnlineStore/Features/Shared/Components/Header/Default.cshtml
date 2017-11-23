@@ -1,4 +1,6 @@
-﻿<div class="header">
+﻿@inject IAuthorizationService Authorization
+
+<div class="header">
     <div class="top-header">
         <div class="container">
             <div class="top-header-left">
@@ -35,7 +37,7 @@
                     <ul class="login">
                         <li><a asp-action="Logout" asp-controller="Account"><span> </span>LOGOUT</a></li>
 
-                        @if (User.IsInRole(OnlineStore.Infrastructure.Constants.Roles.ADMIN_ROLE))
+                        @if (await Authorization.IsAuthorizedForAdminPanelAsync(User))
                         {
                             @:| 
                             <li>

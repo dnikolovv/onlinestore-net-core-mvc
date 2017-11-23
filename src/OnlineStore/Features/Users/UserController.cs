@@ -1,13 +1,13 @@
 ﻿namespace OnlineStore.Features.Users
 {
-    using Infrastructure.Attributes;
+    using System.Threading.Tasks;
     using Infrastructure.Constants;
     using MediatR;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using OnlineStore.Infrastructure.Extensions;
-    using System.Threading.Tasks;
 
-    [ServiceFilter(typeof(DynamicallyAuthorizeServiceFilter))]
+    [Authorize(Policy = Policies.USER_MANAGER)]
     public class UserController : Controller
     {
         public UserController(IMediator mediator)

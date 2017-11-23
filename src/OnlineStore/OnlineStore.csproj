@@ -10,6 +10,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Permissions\**" />
+    <Content Remove="Features\Permissions\**" />
+    <EmbeddedResource Remove="Features\Permissions\**" />
+    <None Remove="Features\Permissions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Features\Admin\Permissions.cs" />
+    <Compile Remove="Infrastructure\Attributes\DynamicallyAuthorizeServiceFilter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="wwwroot\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
@@ -46,6 +58,12 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Features\Admin\Views\Roles.cshtml" />
+    <None Include="Features\Roles\Views\Create.cshtml" />
+    <None Include="Features\Roles\Views\Edit.cshtml" />
   </ItemGroup>
 
 </Project>

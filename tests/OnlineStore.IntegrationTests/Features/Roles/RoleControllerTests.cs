@@ -1,14 +1,14 @@
 ﻿namespace OnlineStore.IntegrationTests.Features.Roles
 {
+    using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using OnlineStore.Features.Roles;
     using OnlineStore.Infrastructure.Constants;
     using OnlineStore.IntegrationTests.Extensions;
-    using System.Threading.Tasks;
 
     public class RoleControllerTests
     {
-        public async Task SuccessfullCreationSetsSuccessMessage(SliceFixture fixture)
+        public void SuccessfullCreationSetsSuccessMessage(SliceFixture fixture)
         {
             // Arrange
             var controller = fixture.GetController<RoleController>();
@@ -19,7 +19,7 @@
                 Name = "Some role"
             };
 
-            await controller.Create(createCommand);
+            controller.Create(createCommand);
 
             // Assert
             controller.TempData

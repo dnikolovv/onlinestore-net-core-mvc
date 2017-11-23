@@ -42,7 +42,7 @@
             var editCommand = new Edit.Command
             {
                 Id = registeredUser.Id,
-                SelectedRoles = new List<int> { role.Id }
+                SelectedRoles = new List<string> { role.Name }
             };
 
             await fixture.SendAsync(editCommand);
@@ -86,7 +86,7 @@
             var editCommand = new Edit.Command
             {
                 Id = registeredUser.Id,
-                SelectedRoles = new List<int> { role.Id }
+                SelectedRoles = new List<string> { role.Name }
             };
 
             await fixture.SendAsync(editCommand);

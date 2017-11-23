@@ -1,5 +1,7 @@
 ﻿namespace OnlineStore.Features.Admin
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using AutoMapper;
     using Data;
     using Data.Models;
@@ -7,8 +9,7 @@
     using Infrastructure.ViewModels.Users;
     using MediatR;
     using Microsoft.EntityFrameworkCore;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    using OnlineStore.Infrastructure.ViewModels.Roles;
 
     public class Users
     {
@@ -44,7 +45,9 @@
                 {
                     var viewModel = Mapper.Map<UserViewModel>(user);
 
-                    var roles = await this.usersService.GetRolesAsync(user.Id.ToString());
+                    var roles = await this.usersService.GetRolesAsync(user.Id);
+                    var claims = await this.usersService.GetClaimsAsync(user.Id);
+
                     viewModel.Roles = Mapper.Map<ICollection<RoleViewModel>>(roles);
                     
                     viewModels.Add(viewModel);

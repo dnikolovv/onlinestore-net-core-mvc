@@ -14,8 +14,9 @@
         public async Task CommitsTransaction()
         {
             // Arrange
-            var db = A.Fake<ApplicationDbContext>();
-
+            var db = A.Fake<ApplicationDbContext>(opts => opts.WithArgumentsForConstructor(() =>
+                new ApplicationDbContext(new Microsoft.EntityFrameworkCore.DbContextOptions<ApplicationDbContext>())));
+            
             A.CallTo(() => db.BeginTransaction()).DoesNothing();
             A.CallTo(() => db.CommitTransactionAsync()).Returns(Task.FromResult(0));
 
@@ -39,7 +40,8 @@
         public async Task RollbacksTransactionOnError()
         {
             // Arrange
-            var db = A.Fake<ApplicationDbContext>();
+            var db = A.Fake<ApplicationDbContext>(opts => opts.WithArgumentsForConstructor(() =>
+                new ApplicationDbContext(new Microsoft.EntityFrameworkCore.DbContextOptions<ApplicationDbContext>())));
 
             A.CallTo(() => db.BeginTransaction()).DoesNothing();
 

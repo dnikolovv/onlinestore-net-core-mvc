@@ -25,8 +25,8 @@
             @foreach (var role in Model.AvailableRoles)
             {
                 @role.Name
-                <input name="SelectedRoles" value="@role.Id" type="checkbox" class="checkbox" 
-                       checked="@(Model.User.Roles.FirstOrDefault(r => r.Id == role.Id) != null)"/>
+                <input name="SelectedRoles" value="@role.Name" type="checkbox" class="checkbox"
+                       checked="@(Model.User.Roles.FirstOrDefault(r => r.Id == role.Id) != null)" />
             }
         </div>
 
